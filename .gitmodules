@@ -1,0 +1,3 @@
+[submodule "AutoHotkey_L-Docs"]
+	path = AutoHotkey_L-Docs
+	url = https://github.com/Lexikos/AutoHotkey_L-Docs.git
