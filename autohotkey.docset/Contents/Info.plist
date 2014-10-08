@@ -10,5 +10,9 @@
     <string>autohotkey</string>
     <key>isDashDocset</key>
     <true/>
+    <key>isJavaScriptEnabled</key>
+    <true/>
+    <key>dashIndexFilePath</key>
+    <string>AutoHotkey.htm</string>
 </dict>
 </plist>

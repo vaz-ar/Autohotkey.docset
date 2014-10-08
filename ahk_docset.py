@@ -5,50 +5,89 @@ import shutil
 from bs4 import BeautifulSoup
 
 
-shutil.rmtree('autohotkey.docset/Contents/Resources/Documents/')
-shutil.copytree('AutoHotkey_L-Docs/docs/', 'autohotkey.docset/Contents/Resources/Documents/')
+def generate_doc():
+    """
+    Generate AHK Docset
+    """
+    source_path = 'AutoHotkey_L-Docs/docs/'
+    dest_path = 'Autohotkey.docset/Contents/Resources/Documents/'
+    db_path = 'Autohotkey.docset/Contents/Resources/docSet.dsidx'
 
-db = sqlite3.connect('autohotkey.docset/Contents/Resources/docSet.dsidx')
-cur = db.cursor()
+    shutil.rmtree(dest_path)
+    shutil.copytree(source_path, dest_path)
 
-cur.execute('DROP TABLE IF EXISTS searchIndex;')
+    re_img = re.compile(r'/docs/(\S*")')
+    re_search = re.compile(r'<form id="search-form"><input id="q" size="30" type="text"></form><div id="search-btn"></div>')
+    re_lang = re.compile(r'(<td class="hdr-language">).*(</td>)')
+    re_left = re.compile(r'(<div class="left-col">).*(</div><div class="right-col">)')
 
-cur.execute(r'CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT);')
+    repl_img = r'/docsets/{}\1'.format(dest_path)
+    data = ''
 
-cur.execute(r'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path);')
+    with open(dest_path + '/static/content.js', encoding='latin-1') as f:
+        for line in f:
+            line = re_img.sub(repl_img, line)
+            line = re_search.sub('', line)
+            line = re_lang.sub(r'\1\2', line)
+            line = re_left.sub(r'\1\2', line)
+            data += line
 
-doc_path = 'autohotkey.docset/Contents/Resources/Documents'
+    with open(dest_path + '/static/content.js', mode='w') as f:
+        f.write(data)
 
-any = re.compile('.*')
+    # ---
 
-with open(doc_path + '/index.html') as f:
-    page = f.read()
+    db = sqlite3.connect(db_path)
+    cur = db.cursor()
 
-soup = BeautifulSoup(page)
+    cur.execute('DROP TABLE IF EXISTS searchIndex;')
 
-for tag in soup.find_all('a', {'href': any}):
-    name = tag.text.strip()
+    cur.execute(
+        r'CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT);')
 
-    if len(name) > 0:
-        path = tag.attrs['href'].strip()
+    cur.execute(
+        r'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path);')
 
-        cur.execute('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?,?,?)', (name, 'Category', path))
-        print('name: {}, path: {}'.format(name, path))
+    doc_path = 'autohotkey.docset/Contents/Resources/Documents'
+
+    re_any = re.compile('.*')
+
+    with open(doc_path + '/AutoHotkey.htm') as f:
+        page = f.read()
+
+    soup = BeautifulSoup(page)
+
+    for tag in soup.find_all('a', attrs={'href': re_any}):
+        name = tag.text.strip()
+
+        if name:
+            path = tag.attrs['href'].strip()
+
+            if not path.startswith("http"):
+                cur.execute(
+                    'INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?,?,?)', (name, 'Category', path))
+                print('name: {}, path: {}'.format(name, path))
+
+    print("------------------------------------------------------------------")
+
+    with open(doc_path + '/commands/index.htm') as f:
+        page = f.read()
+
+    soup = BeautifulSoup(page)
+
+    for tag in soup.find_all('a', attrs={'href': re_any}):
+        name = tag.text.strip()
+
+        if name:
+            path = tag.attrs['href'].strip()
+
+            cur.execute('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?,?,?)',
+                        (name, 'Function', './commands/' + path))
+            print('name: {}, path: {}'.format(name, path))
+
+    db.commit()
+    db.close()
 
 
-with open(doc_path + '/commands/index.htm') as f:
-    page = f.read()
-
-soup = BeautifulSoup(page)
-
-for tag in soup.find_all('a', {'href': any}):
-    name = tag.text.strip()
-
-    if len(name) > 0:
-        path = tag.attrs['href'].strip()
-
-        cur.execute('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?,?,?)', (name, 'Function', './commands/' + path))
-        print('name: {}, path: {}'.format(name, path))
-
-db.commit()
-db.close()
+if __name__ == "__main__":
+    generate_doc()
