@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>FileAppend</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="../static/theme.css" rel="stylesheet" type="text/css" />
+<script src="../static/jquery.js" type="text/javascript"></script>
+<script src="../static/tree.jquery.js" type="text/javascript"></script>
+<script src="../static/content.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h1>FileAppend</h1>
+
+<p>Writes text to the end of a file (first creating the file, if necessary).</p>
+
+<pre class="Syntax">FileAppend [, Text, Filename, Encoding]</pre>
+<h3>Parameters</h3>
+<dl>
+
+  <dt>Text</dt>
+  <dd><p>The text to append to the file. This text may include linefeed characters (`n) to start new lines. In addition, a single long line can be broken up into several shorter ones by means of a <a href="../Scripts.htm#continuation">continuation section</a>.</p>
+      <p>If <em>Text</em> is blank, <em>Filename</em> will be created as an empty file (but if the file already exists, its modification time will be updated).</p>
+    <p>If <em>Text</em> is <a href="../misc/Clipboard.htm#ClipboardAll">%ClipboardAll%</a> or a variable that was previously assigned the value of ClipboardAll, <em>Filename</em> will be unconditionally overwritten with the entire contents of the clipboard (i.e. <a href="FileDelete.htm">FileDelete</a> is not necessary).</p></dd>
+
+  <dt>Filename</dt>
+  <dd><p>The name of the file to be appended, which is assumed to be in <a href="../Variables.htm#WorkingDir">%A_WorkingDir%</a> if an absolute path isn't specified.</p>
+    <p><strong>Binary mode</strong>: To append in binary mode rather than text mode, prepend an asterisk to the filename. This causes each linefeed character (`n) to be written as as a single linefeed (LF) rather than the Windows standard of CR+LF. For example: <code>*C:\My Unix File.txt</code>.</p>
+    <p>If the file is not already open (due to being inside a <a href="LoopReadFile.htm">file-reading loop</a>), the file is automatically opened in binary mode if <em>Text</em> contains any carriage return and linefeed pairs (`r`n). In other words, the asterisk option described in the previous paragraph is put into effect automatically. However, specifying the asterisk when <em>Text</em> contains `r`n improves performance because the program does not need to scan <em>Text</em> for `r`n.</p>
+    <p><strong><a name="stdout"></a>Standard Output (stdout)</strong>: Specifying an asterisk (*) for <em>Filename</em> causes <em>Text</em> to be sent to standard output (stdout). Such text can be redirected to a file, piped to another EXE, or captured by <a href="_ErrorStdOut.htm">fancy text editors</a>. For example, the following would be valid if typed at a command prompt:</p>
+      <pre>&quot;%ProgramFiles%\AutoHotkey\AutoHotkey.exe&quot; &quot;My Script.ahk&quot; &gt;&quot;Error Log.txt&quot;</pre>
+    <p>However, text sent to stdout will not appear at the command prompt it was launched from. This can be worked around by piping a script's output to another command or program. For example:</p>
+      <pre>&quot;%ProgramFiles%\AutoHotkey\AutoHotkey.exe&quot; &quot;My Script.ahk&quot; |more</pre>
+      <pre>For /F &quot;tokens=*&quot; %L in ('&quot;&quot;%ProgramFiles%\AutoHotkey\AutoHotkey.exe&quot; &quot;My Script .ahk&quot;&quot;') do @Echo %L</pre>
+    </dd>
+
+  <dt>Encoding</dt>
+  <dd><p><span class="ver">[AHK_L 42+]:</span> Overrides the default encoding set by <a href="FileEncoding.htm">FileEncoding</a>, where <em>Encoding</em> follows the same format.</p></dd>
+
+</dl>
+
+<h3>ErrorLevel</h3>
+<p><span class="ver">[v1.1.04+]</span> This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
+<p><a href="../misc/ErrorLevel.htm">ErrorLevel</a> is set to 1 if there was a problem or 0 otherwise.</p>
+<p><a href="../Variables.htm#LastError">A_LastError</a> is set to the result of the operating system's GetLastError() function.</p>
+
+<h3>Remarks</h3>
+<p>To overwrite an existing file, delete it with <a href="FileDelete.htm">FileDelete</a> prior to using FileAppend.</p>
+<p>The target file is automatically closed after the text is appended (except when FileAppend is used in its single-parameter mode inside a <a href="LoopReadFile.htm">file-reading/writing loop</a>).</p>
+<p><span class="ver">[AHK_L 42+]:</span> <a href="FileOpen.htm">FileOpen()</a> in append mode provides more control than FileAppend and allows the file to be kept open rather than opening and closing it each time. Once a file is opened in append mode, use <code>file.<a href="../objects/File.htm#Write">Write</a>(string)</code> to append the string. File objects also support binary I/O via <a href="../objects/File.htm#RawWrite">RawWrite</a>/<a href="../objects/File.htm#RawRead">RawRead</a> or <a href="../objects/File.htm#WriteNum">Write<i>Num</i></a>/<a href="../objects/File.htm#ReadNum">Read<i>Num</i></a>, whereas FileAppend supports only text.</p>
+<h3>Related</h3>
+<p><a href="FileOpen.htm">FileOpen</a>/<a href="../objects/File.htm">File Object</a>, <a href="FileRead.htm">FileRead</a>, <a href="LoopReadFile.htm">file-reading loop</a>, <a href="FileReadLine.htm">FileReadLine</a>, <a href="IniWrite.htm">IniWrite</a>, <a href="FileDelete.htm">FileDelete</a>, <a href="OutputDebug.htm">OutputDebug</a>, <a href="../Scripts.htm#continuation">continuation sections</a></p>
+<h3>Example</h3>
+<pre class="NoIndent">FileAppend, Another line.`n, C:\My Documents\Test.txt
+
+<em>; The following example uses a <a href="../Scripts.htm#continuation">continuation section</a> to enhance readability and maintainability:</em>
+FileAppend,
+(
+A line of text.
+By default, the hard carriage return (Enter) between the previous line and this one will be written to the file.
+    This line is indented with a tab; by default, that tab will also be written to the file.
+Variable references such as %Var% are expanded by default.
+), C:\My File.txt</pre>
+<p>&nbsp;</p>
+<pre class="NoIndent"><a name="FTP"></a><em>; The following example demonstrates how to automate FTP uploading using the operating 
+; system's built-in FTP command. This script has been tested on Windows XP.</em>
+
+FTPCommandFile = %A_ScriptDir%\FTPCommands.txt
+FTPLogFile = %A_ScriptDir%\FTPLog.txt
+FileDelete %FTPCommandFile%  <em>; In case previous run was terminated prematurely.</em>
+
+FileAppend,  <em>; The comma is required in this case.</em>
+(
+open host.domain.com
+username
+password
+binary
+cd htdocs
+put %VarContainingNameOfTargetFile%
+delete SomeOtherFile.htm
+rename OldFileName.htm NewFileName.htm
+ls -l
+quit
+), %FTPCommandFile%
+
+RunWait %comspec% /c ftp.exe -s:&quot;%FTPCommandFile%&quot; &gt;&quot;%FTPLogFile%&quot;
+FileDelete %FTPCommandFile%  <em>; Delete for security reasons.</em>
+Run %FTPLogFile%  <em>; Display the log for review.</em></pre>
+
+</body>
+</html>

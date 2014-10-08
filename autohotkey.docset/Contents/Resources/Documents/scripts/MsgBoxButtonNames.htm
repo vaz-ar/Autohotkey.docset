@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Changing MsgBox's Button Names</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="../static/theme.css" rel="stylesheet" type="text/css" />
+<script src="../static/jquery.js" type="text/javascript"></script>
+<script src="../static/tree.jquery.js" type="text/javascript"></script>
+<script src="../static/content.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h1>Changing MsgBox's Button Names</h1>
+
+<p>This is a working example script that uses a timer to change
+ the names of the buttons in a MsgBox dialog. Although the button
+ names are changed, the IfMsgBox command still requires that the
+ buttons be referred to by their original names.
+</p>
+<p><a href="MsgBoxButtonNames.ahk">Download This Script</a> &nbsp;| &nbsp;<a href="index.htm">Other Sample Scripts</a> &nbsp;| &nbsp;<a href="../AutoHotkey.htm">Home</a></p>
+
+<pre class="NoIndent">#SingleInstance
+SetTimer, ChangeButtonNames, 50 
+MsgBox, 4, Add or Delete, Choose a button:
+IfMsgBox, YES 
+    MsgBox, You chose Add. 
+else 
+    MsgBox, You chose Delete. 
+return 
+
+ChangeButtonNames: 
+IfWinNotExist, Add or Delete
+    return  <em>; Keep waiting.</em>
+SetTimer, ChangeButtonNames, off 
+WinActivate 
+ControlSetText, Button1, &amp;Add 
+ControlSetText, Button2, &amp;Delete 
+return
+</pre>
+</body>
+</html>

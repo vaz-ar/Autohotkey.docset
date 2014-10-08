@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>ComObjError()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="../static/theme.css" rel="stylesheet" type="text/css" />
+<script src="../static/jquery.js" type="text/javascript"></script>
+<script src="../static/tree.jquery.js" type="text/javascript"></script>
+<script src="../static/content.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h1>ComObjError() <span class="ver">[AHK_L 53+]</span></h1>
+
+<p>Enables or disables notification of COM errors.</p>
+
+<pre class="Syntax">Enabled := ComObjError([Enable])</pre>
+<h3>Parameters</h3>
+<dl>
+
+  <dt>Enable</dt>
+  <dd><p>A boolean value (true or false). Optional.</p></dd>
+
+  <dt>Enabled</dt>
+  <dd><p><span class="ver">[v1.0.91+]:</span> Receives the setting which was in effect before the function was called.</p></dd>
+
+</dl>
+
+<h3>General Remarks</h3>
+<p>After accessing a COM object, <a href="../Variables.htm#LastError">A_LastError</a> contains the HRESULT code returned by the COM object's <a href="http://msdn.microsoft.com/en-us/library/ms221479.aspx">IDispatch::Invoke</a> function. Scripts may implement their own error-handling by calling <code>ComObjError(false)</code> to disable error notifications and consulting the value of A_LastError.</p>
+
+<h3>Related</h3>
+<p><a href="ComObjCreate.htm">ComObjCreate</a>, <a href="ComObjGet.htm">ComObjGet</a>, <a href="ComObjActive.htm">ComObjActive</a>, <a href="ComObjConnect.htm">ComObjConnect</a></p>
+
+</body>
+</html>

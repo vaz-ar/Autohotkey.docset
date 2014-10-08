@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>ComObjActive()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="../static/theme.css" rel="stylesheet" type="text/css" />
+<script src="../static/jquery.js" type="text/javascript"></script>
+<script src="../static/tree.jquery.js" type="text/javascript"></script>
+<script src="../static/content.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h1>ComObjActive() <span class="ver">[AHK_L 53+]</span></h1>
+
+<p>Retrieves a running object that has been registered with OLE.</p>
+<pre class="Syntax">ComObject := ComObjActive(CLSID)</pre>
+
+<p id="param">Creates an object representing a typed value to be passed as a parameter or return value.</p>
+<pre class="Syntax">ParamObj := ComObject(VarType, Value [, Flags])</pre>
+
+<h4 style="margin-top:2em">DEPRECATED:</h4>
+<p>The usages shown below are deprecated and may be altered or unavailable in a future release.</p>
+<p id="missing">Creates an object which may be used in place of an optional parameter's default value when calling a method of a COM object. Obsolete since v1.1.12: simply write two consecutive commas instead, as in <code>Obj.Method(1,,3)</code></p>
+<pre class="Syntax">ParamObj := ComObjMissing()</pre>
+
+<p id="enwrap">Wraps or unwraps a raw <a href="http://msdn.microsoft.com/en-us/library/dd318520.aspx">IDispatch</a> pointer in a usable object and automatically calls AddRef.</p>
+<pre class="Syntax">ComObject := ComObjEnwrap(DispPtr)
+DispPtr := ComObjUnwrap(ComObject)</pre>
+<p>To write more future-proof code, use the following instead:</p>
+<pre>ComObject := ComObject(9, DispPtr, 1), ObjAddRef(DispPtr)
+DispPtr := <a href="ComObjValue.htm">ComObjValue</a>(ComObject), ObjAddRef(DispPtr)</pre>
+
+<h3>Parameters</h3>
+<dl>
+
+  <dt>CLSID</dt>
+  <dd><p>CLSID or human-readable Prog ID of the COM object to retrieve.</p></dd>
+
+  <dt>ComObject</dt>
+  <dd><p>COM object usable with <a href="../Objects.htm#Usage_Objects">object syntax</a>.</p></dd>
+
+  <dt>VarType</dt>
+  <dd><p>An integer indicating the type of value. See <a href="ComObjType.htm#vt">ComObjType()</a> for a list of types.</p></dd>
+
+  <dt>Value</dt>
+  <dd><p>The value to wrap. Currently only integer and pointer values are supported.</p></dd>
+
+  <dt>Flags</dt>
+  <dd><p>Flags affecting the behaviour of this function and the wrapper object; see below.</p></dd>
+
+  <dt>DispPtr</dt>
+  <dd><p>Raw IDispatch pointer.</p></dd>
+
+</dl>
+
+<h3 id="Flags">Flags</h3>
+<table class="info">
+  <tr>
+    <td>&nbsp;0&nbsp;</td>
+    <td>
+      <p>Default behaviour. <a href="http://msdn.microsoft.com/en-us/library/ms691379.aspx">AddRef</a> is called automatically for IUnknown and IDispatch pointers, so the caller should use <a href="ObjAddRef.htm">ObjRelease</a> to release their copy of the pointer if appropriate.</p>
+      <p>As the default behaviour may be changing in a future release, it is recommended to always set <em>Flags</em> to <code>1</code> when wrapping an interface pointer, and call <a href="ObjAddRef.htm">ObjAddRef()</a> if needed.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;1&nbsp;</td>
+    <td>Take ownership of an IUnknown, IDispatch or SAFEARRAY pointer. AddRef is not called. If the wrapper object contains a SAFEARRAY (excluding VT_BYREF), <a href="http://msdn.microsoft.com/en-us/library/ms221702.aspx">SafeArrayDestroy</a> is called automatically when the wrapper object is freed.</td>
+  </tr>
+</table>
+
+<h3 id="Remarks">General Remarks</h3>
+<p>In current versions, any function-call beginning with "ComObj" that does not match one of the other COM functions actually calls ComObjActive. For example, <code>ComObjEnwrap(DispPtr)</code> and <code>ComObjActive(DispPtr)</code> are both equivalent to <code>ComObject(DispPtr)</code> (<em>VarType</em> 9 is implied). However, this behaviour will be unavailable in a future release, so it is best to use only <code>ComObject()</code> and <code>ComObjActive()</code> as shown on this page.</p>
+<p>When this function is used to wrap or retrieve an IDispatch or IUnknown interface pointer, the default behaviour is to increment the COM object's reference count. Therefore, the interface pointer must be <a href="ObjAddRef.htm">manually released</a> when it is no longer needed. When the wrapper object is freed, the reference it contains is automatically released.</p>
+<p><b>Known limitation:</b> Each time a COM object is wrapped, a new wrapper object is created. Comparisons and assignments such as <code>obj1 == obj2</code> and <code>array[obj1] := value</code> treat the two wrapper objects as unique, even though they contain the same COM object.</p>
+
+<h3 id="Related">Related</h3>
+<p><a href="ComObjCreate.htm">ComObjCreate</a>, <a href="ComObjGet.htm">ComObjGet</a>, <a href="ComObjConnect.htm">ComObjConnect</a>, <a href="ComObjError.htm">ComObjError</a>, <a href="ComObjFlags.htm">ComObjFlags</a>, <a href="ObjAddRef.htm">ObjAddRef/ObjRelease</a>, <a href="ComObjQuery.htm">ComObjQuery</a>, <a href="http://msdn.microsoft.com/en-us/library/ms221467.aspx">GetActiveObject (MSDN)</a></p>
+
+<h3>Examples</h3>
+<p>ComObjUnwrap: See <a href="ComObjConnect.htm#Examples">ComObjConnect</a>.</p>
+<pre class="NoIndent" id="ByRefEx"><em>; Example: Pass a VARIANT ByRef to a COM function.</em>
+
+code =
+(
+Sub Example(Var)
+    MsgBox Var
+    Var = "out value!"
+End Sub
+)
+sc := <a href="ComObjCreate.htm">ComObjCreate</a>("ScriptControl"), sc.Language := "VBScript", sc.AddCode(code)
+
+var := ComVar()
+var[] := "in value"
+sc.Run("Example", var.ref)
+MsgBox % var[]
+
+
+<em>; ComVar: Creates an object which can be used to pass a value ByRef.
+;   ComVar[] retrieves the value.
+;   ComVar[] := Val sets the value.
+;   ComVar.ref retrieves a ByRef object for passing to a COM function.</em>
+ComVar(Type=0xC)
+{
+    static <a href="../Objects.htm#Custom_Objects">base</a> := { __Get: "ComVarGet", __Set: "ComVarSet", __Delete: "ComVarDel" }
+    <em>; Create an array of 1 VARIANT.  This method allows built-in code to take
+    ; care of all conversions between VARIANT and AutoHotkey internal types.</em>
+    arr := <a href="ComObjArray.htm">ComObjArray</a>(Type, 1)
+    <em>; Lock the array and retrieve a pointer to the VARIANT.</em>
+    DllCall("oleaut32\SafeArrayAccessData", "ptr", <a href="ComObjValue.htm">ComObjValue</a>(arr), "ptr*", arr_data)
+    <em>; Store the array and an object which can be used to pass the VARIANT ByRef.</em>
+    return { ref: ComObject(0x4000|Type, arr_data), _: arr, base: base }
+}
+
+ComVarGet(cv, <a href="../Functions.htm#Variadic">p*</a>) { <em>; Called when script accesses an unknown field.</em>
+    if p.MaxIndex() = "" <em>; No name/parameters, i.e. cv[]</em>
+        return cv._[0]
+}
+
+ComVarSet(cv, v, p*) { <em>; Called when script sets an unknown field.</em>
+    if p.MaxIndex() = "" <em>; No name/parameters, i.e. cv[]:=v</em>
+        return cv._[0] := v
+}
+
+ComVarDel(cv) { <em>; Called when the object is being freed.
+    ; This must be done to allow the internal array to be freed.</em>
+    DllCall("oleaut32\SafeArrayUnaccessData", "ptr", ComObjValue(cv._))
+}
+</pre>
+
+</body>
+</html>

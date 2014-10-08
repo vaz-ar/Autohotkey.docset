@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>SoundBeep</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="../static/theme.css" rel="stylesheet" type="text/css" />
+<script src="../static/jquery.js" type="text/javascript"></script>
+<script src="../static/tree.jquery.js" type="text/javascript"></script>
+<script src="../static/content.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h1>SoundBeep</h1>
+
+<p>Emits a tone from the PC speaker.</p>
+
+<pre class="Syntax">SoundBeep [, Frequency, Duration]</pre>
+<h3>Parameters</h3>
+<dl>
+
+  <dt>Frequency</dt>
+  <dd><p>The frequency of the sound, which can be an <a href="../Variables.htm#Expressions">expression</a>. It should be a number between 37 and 32767. If omitted, the frequency will be 523.</p></dd>
+
+  <dt>Duration</dt>
+  <dd><p>The duration of the sound, in milliseconds (can be an <a href="../Variables.htm#Expressions">expression</a>). If omitted, the duration will be 150.</p></dd>
+
+</dl>
+
+<h3>Remarks</h3>
+<p>The script waits for the sound to finish before continuing. In addition, system responsiveness might be reduced during sound production.</p>
+<p>If the computer lacks a sound card, a standard beep is played through the PC speaker.</p>
+<p>To produce the standard system sounds instead of beeping the PC Speaker, see the asterisk mode of <a href="SoundPlay.htm">SoundPlay</a>.</p>
+<h3>Related</h3>
+<p><a href="SoundPlay.htm">SoundPlay</a></p>
+<h3>Example</h3>
+<pre class="NoIndent">SoundBeep  <em>; Play the default pitch and duration.</em>
+SoundBeep, 750, 500  <em>; Play a higher pitch for half a second.</em></pre>
+
+</body>
+</html>
