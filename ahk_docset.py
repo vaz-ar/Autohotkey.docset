@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import re
-import sqlite3
 import shutil
+import sqlite3
+
 from bs4 import BeautifulSoup
 
 
@@ -9,9 +10,9 @@ def generate_doc():
     """
     Generate AHK Docset
     """
-    source_path = 'AutoHotkey_L-Docs/docs/'
-    dest_path = 'Autohotkey.docset/Contents/Resources/Documents/'
-    db_path = 'Autohotkey.docset/Contents/Resources/docSet.dsidx'
+    source_path = 'AutoHotkey_L-Docs\docs\\'
+    dest_path = 'Autohotkey.docset\Contents\Resources\Documents\\'
+    db_path = 'Autohotkey.docset\Contents\Resources\docSet.dsidx'
 
     shutil.rmtree(dest_path)
     shutil.copytree(source_path, dest_path)
@@ -21,18 +22,18 @@ def generate_doc():
     re_lang = re.compile(r'(<td class="hdr-language">).*(</td>)')
     re_left = re.compile(r'(<div class="left-col">).*(</div><div class="right-col">)')
 
-    repl_img = r'/docsets/{}\1'.format(dest_path)
+    repl_img = r'\docsets\{}\1'.format(dest_path)
     data = ''
 
-    with open(dest_path + '/static/content.js', encoding='latin-1') as f:
-        for line in f:
-            line = re_img.sub(repl_img, line)
-            line = re_search.sub('', line)
-            line = re_lang.sub(r'\1\2', line)
-            line = re_left.sub(r'\1\2', line)
-            data += line
+    # with open(dest_path + 'static\content.js', encoding='latin-1') as f:
+        # for line in f:
+            # line = re_img.sub(repl_img, line)
+            # line = re_search.sub('', line)
+            # line = re_lang.sub(r'\1\2', line)
+            # line = re_left.sub(r'\1\2', line)
+            # data += line
 
-    with open(dest_path + '/static/content.js', mode='w') as f:
+    with open(dest_path + '\static\content.js', mode='w') as f:
         f.write(data)
 
     # ---
@@ -48,11 +49,11 @@ def generate_doc():
     cur.execute(
         r'CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path);')
 
-    doc_path = 'autohotkey.docset/Contents/Resources/Documents'
+    doc_path = 'autohotkey.docset\Contents\Resources\Documents'
 
     re_any = re.compile('.*')
 
-    with open(doc_path + '/AutoHotkey.htm') as f:
+    with open(doc_path + '\AutoHotkey.htm') as f:
         page = f.read()
 
     soup = BeautifulSoup(page)
@@ -70,7 +71,7 @@ def generate_doc():
 
     print("------------------------------------------------------------------")
 
-    with open(doc_path + '/commands/index.htm') as f:
+    with open(doc_path + '\commands\index.htm') as f:
         page = f.read()
 
     soup = BeautifulSoup(page)
@@ -82,7 +83,7 @@ def generate_doc():
             path = tag.attrs['href'].strip()
 
             cur.execute('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?,?,?)',
-                        (name, 'Function', './commands/' + path))
+                        (name, 'Function', '.\commands\\' + path))
             print('name: {}, path: {}'.format(name, path))
 
     db.commit()
