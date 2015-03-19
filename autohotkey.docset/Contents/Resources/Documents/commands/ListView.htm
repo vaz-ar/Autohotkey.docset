@@ -7,8 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
-<script src="../static/jquery.js" type="text/javascript"></script>
-<script src="../static/tree.jquery.js" type="text/javascript"></script>
 <script src="../static/content.js" type="text/javascript"></script>
 </head>
 
@@ -141,7 +139,7 @@ ExitApp</pre>
 <h3><a name="LV_InsertCol"></a>LV_InsertCol(ColumnNumber [, Options, ColumnTitle])</h3>
 <p>Creates a new column, inserting it as the specified <em>ColumnNumber</em> (shifting any other columns to the right to make room). The first column is 1 (not 0). If <em>ColumnNumber</em> is larger than the number of columns currently in the control, the new column is added to the end of the list. The newly inserted column starts off with empty contents beneath it unless it is the first column, in which case it inherits the old first column's contents and the old first column acquires blank contents. The new column's attributes -- such as whether or not it uses <a href="#Integer">integer sorting</a> -- always start off at their defaults unless changed via <em><a href="#ColOptions">Options</a></em>. This function returns the new column's position number (or 0 upon failure). The maximum number of columns in a ListView is 200.</p>
 <h3><a name="LV_DeleteCol"></a>LV_DeleteCol(ColumnNumber)</h3>
-<p>Deletes the specified column and all of the contents beneath it. It returns 1 upon success and 0 upon failure. Once a column is deleted, the column numbers of any that lie to its right are reduced by 1. Consequently, calling <code>LV_DeleteCol(2)</code> twice would delete the second and third columns. On operating systems older than Windows XP, attempting to delete the original first column might might fail and return 0.</p>
+<p>Deletes the specified column and all of the contents beneath it. It returns 1 upon success and 0 upon failure. Once a column is deleted, the column numbers of any that lie to its right are reduced by 1. Consequently, calling <code>LV_DeleteCol(2)</code> twice would delete the second and third columns. On operating systems older than Windows XP, attempting to delete the original first column might fail and return 0.</p>
 <h2 id="bifGet">Getting Data Out of a ListView</h2>
 <h3><a name="LV_GetCount"></a>LV_GetCount([&quot;Selected | Column&quot;])</h3>
 <p>When the parameter is omitted, the function returns the total number of rows in the control. When the parameter is &quot;S&quot; or &quot;Selected&quot;, the count includes only the selected/highlighted rows. When the parameter is &quot;Col&quot; or &quot;Column&quot;, the function returns the number of columns in the control. This function is always instantaneous because the control keeps track of these counts.</p>
@@ -152,7 +150,7 @@ ExitApp</pre>
     if InStr(RetrievedText, &quot;some filter text&quot;)
         LV_Modify(A_Index, &quot;Select&quot;)  <em>; Select each row whose first field contains the filter-text.</em>
 }</pre>
-<p>To retrieve the widths of a ListView's columns -- for uses such as saving them to an INI file to be remembered beween sessions -- follow this example:</p>
+<p>To retrieve the widths of a ListView's columns -- for uses such as saving them to an INI file to be remembered between sessions -- follow this example:</p>
 <pre>Gui +LastFound
 Loop % LV_GetCount(&quot;Column&quot;)
 {
@@ -202,7 +200,7 @@ return</pre>
 <p><strong>F</strong>: The ListView has received keyboard focus.</p>
 <p><strong>f</strong> (lowercase F): The ListView has lost keyboard focus.</p>
 <p><strong><a name="ItemChanged"></a>I</strong>: Item changed. A row has changed by becoming selected/deselected, checked/unchecked, etc. If the user selects a new row, at least two such notifications are received: one for the de-selection of the previous row, and one for the selection of the new row. In v1.0.44+, the variable A_EventInfo contains the row number. In v1.0.46.10+, ErrorLevel contains zero or more of the following letters to indicate how the item changed: S (select) or s (de-select), and/or F (focus) or f (de-focus), and/or C (checkmark) or c (uncheckmark). For example, SF means that the row has been selected and focused. To detect whether a particular letter is present, use a <a href="LoopParse.htm">parsing loop</a> or the case-sensitive option of <a href="../Functions.htm#InStr">InStr()</a>; for example: <code>InStr(ErrorLevel, &quot;S&quot;, true)</code>. Note: For compatibility with future versions, a script should not assume that &quot;SsFfCc&quot; are the only possible letters. Also, specifying <a href="Critical.htm">Critical</a> as the <a href="Gui.htm#label">g-label</a>'s first line ensures that all &quot;I&quot; notifications are received (otherwise, some might be lost if the script cannot keep up with them).</p>
-<p><strong><a name="NotifyK"></a>K</strong>: The user has pressed a key while the ListView has focus. A_EventInfo contains the virtual key code of the key, which is a number between 1 and 255. If the key is alphabetic, on most keyboard layouts it can be translated to the corresponding character via <code><a href="../Functions.htm#Chr">Chr(A_EventInfo)</a></code>. F2 keystrokes are received regardless of <a href="#WantF2">WantF2</a>. However, the Enter keystroke is not received; to receive it, use a default button as described <a href="#Enter">below</a>.</p>
+<p><strong><a name="NotifyK"></a>K</strong>: The user has pressed a key while the ListView has focus. A_EventInfo contains the virtual key code of the key, which is a number between 1 and 255. This can be translated to a key name or character via <a href="../Functions.htm#GetKeyName">GetKeyName</a>. For example, <code>key := GetKeyName(<a href="Format.htm">Format</a>("vk{:x}", A_EventInfo))</code>. On most keyboard layouts, keys A-Z can be translated to the corresponding character via <code><a href="../Functions.htm#Chr">Chr(A_EventInfo)</a></code>. F2 keystrokes are received regardless of <a href="#WantF2">WantF2</a>. However, the Enter keystroke is not received; to receive it, use a default button as described <a href="#Enter">below</a>.</p>
 <p><strong>M</strong>: Marquee. The user has started to drag a selection-rectangle around a group of rows or icons.</p>
 <p><strong>S</strong>: The user has begun scrolling the ListView.</p>
 <p><strong>s</strong> (lowercase S): The user has finished scrolling the ListView.</p>
