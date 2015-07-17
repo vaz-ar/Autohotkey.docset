@@ -16,27 +16,6 @@ def generate_doc():
     shutil.rmtree(dest_path)
     shutil.copytree(source_path, dest_path)
 
-    re_img = re.compile(r'/docs/(\S*")')
-    re_search = re.compile(r'<form id="search-form"><input id="q" size="30" type="text"></form><div id="search-btn"></div>')
-    re_lang = re.compile(r'(<td class="hdr-language">).*(</td>)')
-    re_left = re.compile(r'(<div class="left-col">).*(</div><div class="right-col">)')
-
-    repl_img = r'/docsets/{}\1'.format(dest_path)
-    data = ''
-
-    with open(dest_path + '/static/content.js', encoding='latin-1') as f:
-        for line in f:
-            line = re_img.sub(repl_img, line)
-            line = re_search.sub('', line)
-            line = re_lang.sub(r'\1\2', line)
-            line = re_left.sub(r'\1\2', line)
-            data += line
-
-    with open(dest_path + '/static/content.js', mode='w') as f:
-        f.write(data)
-
-    # ---
-
     db = sqlite3.connect(db_path)
     cur = db.cursor()
 

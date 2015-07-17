@@ -6,8 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="static/theme.css" rel="stylesheet" type="text/css" />
-<script src="static/jquery.js" type="text/javascript"></script>
-<script src="static/tree.jquery.js" type="text/javascript"></script>
 <script src="static/content.js" type="text/javascript"></script>
 </head>
 <body>
@@ -94,6 +92,7 @@ A line of text.
 <p>In the examples above, a series of lines is bounded at the top and bottom by a pair of parentheses. This is known as a <em>continuation section</em>. Notice that the bottom line contains <a href="commands/FileAppend.htm">FileAppend</a>'s last parameter after the closing parenthesis. This practice is optional; it is done in cases like this so that the comma will be seen as a parameter-delimiter rather than a literal comma.</p>
 <p>The default behavior of a continuation section can be overridden by including one or more of the following options to the right of the section's opening parenthesis. If more than one option is present, separate each one from the previous with a space. For example: <code>( LTrim Join| %</code>.</p>
 <p><strong><a name="Join"></a>Join</strong>: Specifies how lines should be connected together. If this option is omitted, each line except the last will be followed by a linefeed character (`n). If the word <em>Join</em> is specified by itself, lines are connected directly to each other without any characters in between. Otherwise, the word <em>Join</em> should be followed immediately by as many as 15 characters. For example, <code>Join`s</code> would insert a space after each line except the last (&quot;`s&quot; indicates a literal space -- it is a special escape sequence recognized only by <em>Join</em>). Another example is <code>Join`r`n</code>, which inserts CR+LF between lines. Similarly, <code>Join|</code> inserts  a pipe between lines. To have the final line in the section also ended by a join-string, include a blank line immediately above the section's closing parenthesis.</p>
+<p>Known limitation: If the Join string ends with a colon, it must not be the last option on the line. For example, <code>(Join:</code> is treated as the label "(Join" and <code>(LTrim Join:</code> is unsupported, but <code>(Join: C</code> is okay.</p>
 <p><strong><a name="LTrim"></a>LTrim</strong>: Omits spaces and tabs at the beginning of each line. This is primarily used to allow the continuation section to be indented. Also, this option may be turned on for multiple continuation sections by specifying <code>#LTrim</code> on a line by itself. <code>#LTrim</code> is positional: it affects all continuation sections physically beneath it. The setting may be turned off via <code>#LTrim Off</code>.</p>
 <p><strong>RTrim0</strong> (RTrim followed by a zero): Turns off the omission of spaces and tabs from the end of each line.</p>
 <p><strong><a name="CommentOption"></a>Comments</strong> (or <strong>Comment</strong> or <strong>Com</strong> or <strong>C</strong>) <span class="ver">[v1.0.45.03+]</span>: Allows <a href="#Comments">semicolon comments</a> inside the continuation section (but not <code>/*..*/</code>). Such comments (along with any spaces and tabs to their left) are entirely omitted from the joined result rather than being treated as literal text. Each comment can appear to the right of a line or on a new line by itself.</p>
@@ -158,15 +157,50 @@ Usage:
 <pre>AutoHotkey.exe [<i>Switches</i>] [<i>Script Filename</i>] [<i>Script Parameters</i>]</pre>
 <p>And for compiled scripts, the format is:</p>
 <pre>CompiledScript.exe [<i>Switches</i>] [<i>Script Parameters</i>]</pre>
-<p><strong>Switches:</strong> Zero or more of the following: <br>
-/f or /force -- Launch unconditionally, skipping any warning dialogs. <br>
-/r or /restart -- Indicate that the script is being restarted (this is also used by the <a href="commands/Reload.htm">Reload</a> command, internally).<br>
-/ErrorStdOut -- Send syntax errors that prevent a script from launching to stdout rather than displaying a dialog. See <a href="commands/_ErrorStdOut.htm">#ErrorStdOut</a> for details.<br>
-/Debug -- <span class="ver">[AHK_L 11+]:</span> Connect to a debugging client. For more details, see <a href="#idebug">Interactive Debugging</a>.<br>
-<a name="CPn"></a>/CP<i>n</i> -- <span class="ver">[AHK_L 51+]:</span> Overrides the default codepage used to read script files. For more details, see <a href="#cp">Script File Codepage</a>.</p>
-<p><a name="defaultfile"></a><strong>Script Filename:</strong> This can be omitted if there are no <em>Script Parameters</em>. If omitted, it will run (or prompt you to create) a file in one of the following default locations:</p>
-<p><span class="ver">[AHK_L 51+]:</span> <code>%AhkExeDir%\%AhkExeName%.ahk</code> or <code><a href="Variables.htm#MyDocuments">%A_MyDocuments%</a>\%AhkExeName%.ahk</code>, where <em>%AhkExeDir%</em> and <em>%AhkExeName%</em> are replaced with the directory and filename of the executable used to run the script, excluding the ".exe" extension.</p>
-<p><span class="ver">[Earlier versions]:</span> <code>AutoHotkey.ini</code> (in the current working directory) or <code><a href="Variables.htm#MyDocuments">%A_MyDocuments%</a>\AutoHotkey.ahk</code>.</p>
+<p><strong>Switches:</strong> Zero or more of the following:</p>
+<table class="info">
+  <tr><th>Switch</th><th>Meaning</th></tr>
+  <tr id="SlashF">
+    <td>/f or /force</td>
+    <td>Launch unconditionally, skipping any warning dialogs.</td>
+  </tr>
+  <tr id="SlashR">
+    <td>/r or /restart</td>
+    <td>Indicate that the script is being restarted (this is also used by the <a href="commands/Reload.htm">Reload</a> command, internally).</td>
+  </tr>
+  <tr id="ErrorStdOut">
+    <td>/ErrorStdOut</td>
+    <td>Send syntax errors that prevent a script from launching to stderr rather than displaying a dialog. See <a href="commands/_ErrorStdOut.htm">#ErrorStdOut</a> for details. This can be combined with /iLib to validate the script without running it.</td>
+  </tr>
+  <tr><th></th><th>Not supported by compiled scripts:</th></tr>
+  <tr id="SlashDebug">
+    <td>/Debug</td>
+    <td><span class="ver">[AHK_L 11+]:</span> Connect to a debugging client. For more details, see <a href="#idebug">Interactive Debugging</a>.</td>
+  </tr>
+  <tr id="CPn">
+    <td>/CP<i>n</i></td>
+    <td><span class="ver">[AHK_L 51+]:</span> Overrides the default codepage used to read script files. For more details, see <a href="#cp">Script File Codepage</a>.</td>
+  </tr>
+  <tr>
+    <td>/iLib <em>"OutFile"</em></td>
+    <td>
+      <p><span class="ver">[v1.0.47+]:</span> AutoHotkey loads the script but does not run it. For each script file which is auto-included via <a href="Functions.htm#lib">the library mechanism</a>, two lines are written to the file specified by <em>OutFile</em>. These lines are written in the following format, where <em>LibDir</em> is the full path of the Lib folder and <em>LibFile</em> is the filename of the library:</p>
+<pre>#Include LibDir\
+#IncludeAgain LibDir\LibFile.ahk</pre>
+      <p>If the output file exists, it is overwritten. <em>OutFile</em> can be <code>*</code> to write the output to stdout.</p>
+      <p>If the script contains syntax errors, the output file may be empty. The process exit code can be used to detect this condition; if there is a syntax error, the exit code is 2. The /ErrorStdOut switch can be used to suppress or capture the error message.</p>
+    </td>
+  </tr>
+</table>
+
+<p><a name="defaultfile"></a><strong>Script Filename:</strong> This can be omitted if there are no <em>Script Parameters</em>. If omitted (such as if you run AutoHotkey directly from the Start menu), the program looks for a script file called <code><i>AutoHotkey</i>.ahk</code> in the following locations, in this order:</p>
+<ul>
+  <li>The directory which contains the <a href="Variables.htm#AhkPath">AutoHotkey executable</a>.</li>
+  <li>The current user's <a href="Variables.htm#MyDocuments">Documents</a> folder.</li>
+</ul>
+<p>The filename <code><i>AutoHotkey</i>.ahk</code> depends on the name of the executable used to run the script. For example, if you rename AutoHotkey.exe to MyScript.exe, it will attempt to find <code>MyScript.ahk</code>. If you run AutoHotkeyU32.exe without parameters, it will look for AutoHotkeyU32.ahk.</p>
+<p>Note: In old versions prior to <a href="AHKL_ChangeLog.htm#L51">revision 51</a>, the program looked for AutoHotkey.ini in the working directory or AutoHotkey.ahk in My Documents.</p>
+<p><span class="ver">[v1.1.17+]:</span> Specify an asterisk (*) for the filename to read the script text from standard input (stdin). For an example, see <a href="commands/Run.htm#ExecScript">ExecScript()</a>.</p>
 <p><strong>Script Parameters:</strong> The string(s) you want to pass into the script, with each separated from the next by a space. Any parameter that contains spaces should be enclosed in quotation marks. A literal quotation mark may be passed in by preceding it with a backslash (\&quot;). Consequently, any trailing slash in a quoted parameter (such as &quot;C:\My Documents<span class="red">\&quot;</span>) is treated as a literal quotation mark (that is, the script would receive the string C:\My Documents<span class="red">&quot;</span>). To remove such quotes, use <code><a href="commands/StringReplace.htm">StringReplace, 1, 1, <span class="red">&quot;</span>,, All</a></code>.</p>
 <p>The script sees incoming parameters as the <a href="Variables.htm">variables</a> %1%, %2%, and so on. In addition, %0% contains the number of parameters passed (0 if none). However, these variables cannot be referenced directly in an expression because they would be seen as numbers rather than variables. The following example exits the script when too few parameters are passed to it:</p>
 <pre>if 0 &lt; 3  <em>; The left side of a <a href="commands/IfEqual.htm">non-expression if-statement</a> is always the name of a variable.</em>
@@ -273,6 +307,7 @@ ifWinExist %ScriptPath% ahk_class AutoHotkey
 <p><strong>Note:</strong> Installer.ahk must be run as admin to work correctly.</p>
 <p>Later versions of the installer include a link in the bottom-right corner to extract setup files without installing. If this function is present, the <code>/E</code> switch can be used to invoke it from the command line. For example:</p>
 <pre>AutoHotkey110903_Install.exe /D=F:\AutoHotkey /E</pre>
+<p>In silent install/uninstall mode, running scripts are closed automatically, where necessary. Pass the <code>/R</code> switch (requires v1.1.19.02+) to automatically reload these scripts using whichever EXE they were running on, <strong>without</strong> command line args. This option is currently not supported when using Installer.ahk to change settings.</p>
 
 <h2>Script Showcase</h2>
 <p>See <a href="scripts/">this page</a> for some useful scripts.</p>
