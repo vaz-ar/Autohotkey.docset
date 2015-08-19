@@ -38,7 +38,7 @@ def generate_doc():
     with open(os.path.join(doc_path, 'AutoHotkey.htm')) as f:
         page = f.read()
 
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page, "html.parser")
 
     for tag in soup.find_all('a', attrs={'href': re_any}):
         name = tag.text.strip()
@@ -56,7 +56,7 @@ def generate_doc():
     with open(os.path.join(doc_path, 'commands', 'index.htm')) as f:
         page = f.read()
 
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page, "html.parser")
 
     for tag in soup.find_all('a', attrs={'href': re_any}):
         name = tag.text.strip()
