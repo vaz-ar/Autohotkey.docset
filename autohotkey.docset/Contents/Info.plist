@@ -5,7 +5,7 @@
     <key>CFBundleIdentifier</key>
     <string>ahk</string>
     <key>CFBundleName</key>
-    <string>Autohotkey</string>
+    <string>AutoHotkey</string>
     <key>DocSetPlatformFamily</key>
     <string>ahk</string>
     <key>isDashDocset</key>
