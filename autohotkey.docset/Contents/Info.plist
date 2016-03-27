@@ -14,5 +14,7 @@
     <true/>
     <key>dashIndexFilePath</key>
     <string>AutoHotkey.htm</string>
+    <key>DashDocSetFallbackURL</key>
+    <string>https://autohotkey.com/docs/</string>
 </dict>
 </plist>

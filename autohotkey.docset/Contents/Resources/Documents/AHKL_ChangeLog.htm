@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
 <title>Changes &amp; New Features</title>
@@ -15,6 +14,21 @@
 <p>For older changes, see <a href="ChangeLogHelp.htm">Archived Changes</a>.</p>
 
 <!--new revisions go here-->
+<h2 id="v1.1.23.05">1.1.23.05 - March 27, 2016</h2>
+<p>Fixed InputBox, MsgBox, FileSelectFile and FileSelectFolder sending an unwanted Alt-up if Alt is down. This was due to an error with the Ctrl/Shift workaround added in v1.1.22.01.</p>
+<p>Improved the Ctrl/Shift workaround to avoid unnecessarily "masking" the Win key if Ctrl, Shift or Alt is also down.</p>
+
+<h2 id="v1.1.23.04">1.1.23.04 - March 26, 2016</h2>
+<p>Fixed LV_Modify to support omitting Options, as in <code>LV_Modify(r,, col1)</code>.</p>
+
+<h2 id="v1.1.23.03">1.1.23.03 - March 12, 2016</h2>
+<p>Fixed __Delete meta-functions erroneously suppressing or prematurely re-throwing exceptions, when they are called during exception propagation.</p>
+<p>Fixed load-time detection of function calls where a required parameter is blank, as in <code>fn(x,,y)</code>.</p>
+
+<h2 id="v1.1.23.02">1.1.23.02 - March 12, 2016</h2>
+<p>Fixed RegDelete deleting the entire key instead of the default value.</p>
+<p>Code maintenance; minor code size improvement.</p>
+
 <h2 id="v1.1.23.01">1.1.23.01 - January 24, 2016</h2>
 <p>Fixed a theoretical issue with loading scripts from weird/very long paths.</p>
 <p>Ahk2Exe: Fixed Unicode in compiled scripts (broken by v1.1.23.00 release).</p>
@@ -1016,7 +1030,7 @@
 
 <h2 id="L48">Revision 48 - February 21, 2010</h2>
 <p>Fixed: Standalone <code>obj.()</code> was not recognized as a valid expression.</p>
-<p>ControlSend now uses WM_CHAR to support characters which have no associated keycode.  For instance, this applies to "&#133;" (en-US), "&#x221e;" in a Unicode build and <code>{U+221e}</code> in either build.</p>
+<p>ControlSend now uses WM_CHAR to support characters which have no associated keycode.  For instance, this applies to "&#8230;" (en-US), "&#x221e;" in a Unicode build and <code>{U+221e}</code> in either build.</p>
 <p>KeyHistory now shows the full 16-bit character code for VK_PACKET (VK=E7) events.  <a href="commands/Send.htm#Unicode">Send</a> may indirectly cause these to be generated for Unicode characters.</p>
 
 <h2 id="L47">Revision 47 - February 13, 2010</h2>
