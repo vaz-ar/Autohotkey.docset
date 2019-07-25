@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>MouseClickDrag</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>MouseClickDrag - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The MouseClickDrag command clicks and holds the specified mouse button, moves the mouse to the destination coordinates, then releases the button." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,8 +14,8 @@
 
 <p>Clicks and holds the specified mouse button, moves the mouse to the destination coordinates, then releases the button.</p>
 
-<pre class="Syntax">MouseClickDrag, WhichButton, X1, Y1, X2, Y2 [, Speed, R]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">MouseClickDrag</span>, WhichButton, X1, Y1, X2, Y2 <span class="optional">, Speed, Relative</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>WhichButton</dt>
@@ -28,16 +29,20 @@
   <dd><p>The x/y coordinates to drag the mouse to (that is, while the button is held down), which can be <a href="../Variables.htm#Expressions">expressions</a>. Coordinates are relative to the active window unless <a href="CoordMode.htm">CoordMode</a> was used to change that.</p></dd>
 
   <dt>Speed</dt>
-  <dd><p>The speed to move the mouse in the range 0 (fastest) to 100 (slowest), which can be an <a href="../Variables.htm#Expressions">expression</a>. Note: a speed of 0 will move the mouse instantly. If omitted, the default speed (as set by <a href="SetDefaultMouseSpeed.htm">SetDefaultMouseSpeed</a> or 2 otherwise) will be used.</p>
-      <p><em>Speed</em> is ignored for <a href="SendMode.htm">SendInput/Play modes</a>; they move the mouse instantaneously (though <a href="SetMouseDelay.htm">SetMouseDelay</a> has a mode that applies to SendPlay). To visually move the mouse more slowly -- such as a script that performs a demonstration for an audience -- use <code><a href="Send.htm#Click">SendEvent {Click 100, 200}</a></code> or <code><a href="SendMode.htm">SendMode Event</a></code> (optionally in conjuction with <a href="BlockInput.htm">BlockInput</a>).</p></dd>
+  <dd><p>The speed to move the mouse in the range 0 (fastest) to 100 (slowest), which can be an <a href="../Variables.htm#Expressions">expression</a>.</p>
+    <p class="note"><strong>Note</strong>: A speed of 0 will move the mouse instantly.</p>
+    <p>If omitted, the default speed (as set by <a href="SetDefaultMouseSpeed.htm">SetDefaultMouseSpeed</a> or 2 otherwise) will be used.</p>
+      <p><em>Speed</em> is ignored for <a href="SendMode.htm">SendInput/Play modes</a>; they move the mouse instantaneously (though <a href="SetMouseDelay.htm">SetMouseDelay</a> has a mode that applies to SendPlay). To visually move the mouse more slowly -- such as a script that performs a demonstration for an audience -- use <code><a href="Send.htm#Click">SendEvent {Click 100, 200}</a></code> or <code><a href="SendMode.htm">SendMode</a> Event</code> (optionally in conjuction with <a href="BlockInput.htm">BlockInput</a>).</p></dd>
 
-  <dt>R</dt>
-  <dd><p>If this parameter is the letter R, the X1 and Y1 coordinates will be treated as offsets from the current mouse position. In other words, the cursor will be moved from its current position by X1 pixels to the right (left if negative) and Y1 pixels down (up if negative).</p>
-      <p>Similarly, the X2 and Y2 coordinates will be treated as offsets from the X1 and Y1 coordinates. For example, the following would first move the cursor down and to the right by 5 pixels from its starting position, and then drag it from that position down and to the right by 10 pixels: <code>MouseClickDrag, Left, 5, 5, 10, 10, , R</code>.</p></dd>
+  <dt>Relative</dt>
+  <dd>
+    <p>If omitted, the X and Y coordinates will be treated as absolute values. To change this behavior, specify the following letter:</p>
+    <p><strong>R:</strong> The X1 and Y1 coordinates will be treated as offsets from the current mouse position. In other words, the cursor will be moved from its current position by X1 pixels to the right (left if negative) and Y1 pixels down (up if negative). Similarly, the X2 and Y2 coordinates will be treated as offsets from the X1 and Y1 coordinates. For example, the following would first move the cursor down and to the right by 5 pixels from its starting position, and then drag it from that position down and to the right by 10 pixels: <code>MouseClickDrag, Left, 5, 5, 10, 10, , R</code>.</p>
+  </dd>
 
 </dl>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>This command uses the sending method set by <a href="SendMode.htm">SendMode</a>.</p>
 <p>Dragging can also be done via the various Send commands, which is more flexible because the mode can be specified via the command name. For example:</p>
 <pre>SendEvent {Click 6, 52, down}{click 45, 52, up}</pre>
@@ -46,14 +51,18 @@
 <p>Some applications and games may have trouble tracking the mouse if it moves too quickly. The <em>speed</em> parameter or <a href="SetDefaultMouseSpeed.htm">SetDefaultMouseSpeed</a> can be used to reduce the speed (in the default <a href="SendMode.htm">SendEvent mode</a> only).</p>
 <p>The <a href="BlockInput.htm">BlockInput</a> command can be used to prevent any physical mouse activity by the user from disrupting the simulated mouse events produced by the mouse commands. However, this is generally not needed for the <a href="SendMode.htm">SendInput/Play</a> modes because they automatically postpone the user's physical mouse activity until afterward.</p>
 <p>There is an automatic delay after every click-down and click-up of the mouse (except for <a href="SendMode.htm">SendInput mode</a>). This delay also occurs after the movement of the mouse during the drag operation. Use <a href="SetMouseDelay.htm">SetMouseDelay</a> to change the length of the delay.</p>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="CoordMode.htm">CoordMode</a>, <a href="SendMode.htm">SendMode</a>, <a href="SetDefaultMouseSpeed.htm">SetDefaultMouseSpeed</a>, <a href="SetMouseDelay.htm">SetMouseDelay</a>, <a href="Click.htm">Click</a>, <a href="MouseClick.htm">MouseClick</a>, <a href="MouseGetPos.htm">MouseGetPos</a>, 
   <a href="MouseMove.htm">MouseMove</a>, <a href="BlockInput.htm">BlockInput</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">MouseClickDrag, left, 0, 200, 600, 400
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>MouseClickDrag, left, 0, 200, 600, 400</pre>
+</div>
 
-<em>; The following example opens MS Paint and draws a little house:</em>
-Run, mspaint.exe
+<div class="ex" id="ExPaint">
+<p><a href="#ExPaint">#2</a>: The following example opens MS Paint and draws a little house:</p>
+<pre>Run, mspaint.exe
 WinWaitActive, ahk_class MSPaintApp,, 2
 if ErrorLevel
     return
@@ -65,6 +74,7 @@ MouseClickDrag, L, 150, 150, 250, 250
 MouseClickDrag, L, 250, 250, 250, 150
 MouseClickDrag, L, 250, 150, 150, 250
 MouseClickDrag, L, 150, 250, 250, 250</pre>
+</div>
 
 </body>
 </html>

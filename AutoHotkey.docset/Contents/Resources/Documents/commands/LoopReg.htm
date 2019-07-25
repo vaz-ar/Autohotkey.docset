@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>Loop (registry)</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Loop (registry) - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The Loop Reg statement retrieves the contents of the specified registry subkey, one item at a time." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -10,43 +11,55 @@
 <body>
 
 <h1>Loop (registry)</h1>
-
 <p>Retrieves the contents of the specified registry subkey, one item at a time.</p>
 
-<pre class="Syntax">Loop, Reg, RootKey[\Key, Mode]  <em>; v1.1.21+ (recommended)</em></pre>
-<pre class="Syntax">Loop, RootKey [, Key, IncludeSubkeys?, Recurse?]</pre>
+<h2 id="new">New Syntax <span class="ver">[v1.1.21+]</span></h2>
+<pre class="Syntax"><span class="func">Loop, Reg</span>, KeyName <span class="optional">, Mode</span></pre>
+
 <h3>Parameters</h3>
 <dl>
 
-  <dt>Reg <span class="ver">[v1.1.21+]</span></dt>
-  <dd><p>The literal word <code>Reg</code> (case-insensitive). This cannot be a variable or expression. If this keyword is present, <em>Key</em> must be separated from <em>RootKey</em> by a slash instead of a comma, and both can be contained within a single variable. For example, <code>Loop, Reg, HKLM\Software</code> or <code>Loop, Reg, %FullPathOfKey%</code>.</p></dd>
+  <dt>Reg</dt>
+  <dd><p>The literal word <code>Reg</code> (case-insensitive). This cannot be a variable or expression.</p></dd>
+
+  <dt>KeyName</dt>
+  <dd><p>The full name of the registry key such as <code>HKLM\Software</code> or <code>%FullPathOfKey%</code>.</p>
+      <p>This must start with HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_USER, HKEY_CLASSES_ROOT, or HKEY_CURRENT_CONFIG (or the abbreviations for each of these, such as HKLM). To access a <a href="#remote">remote registry</a>, prepend the computer name and a colon, as in this example: \\workstation01:HKEY_LOCAL_MACHINE</p></dd>
+
+  <dt>Mode</dt>
+  <dd><p>Zero or more of the following letters:</p>
+      <p><code>K</code>: Include keys.<br>
+      <code>V</code>: Include values. Values are also included if both K and V are omitted.<br>
+      <code>R</code>: Recurse into subkeys. If R is omitted, keys and values within subkeys of <em>KeyName</em> are not included.</p></dd>
+
+</dl>
+
+<h2 id="old">Old Syntax</h2>
+<p class="warning"><strong>Deprecated:</strong> This syntax is not recommended for use in new scripts. Use the <a href="#new">new syntax</a> instead.</p>
+<pre class="Syntax"><span class="func">Loop</span>, RootKey <span class="optional">, Key, IncludeSubkeys?, Recurse?</span></pre>
+
+<h3>Parameters</h3>
+<dl>
 
   <dt>RootKey</dt>
   <dd><p>Must be either HKEY_LOCAL_MACHINE (or HKLM), HKEY_USERS (or HKU), HKEY_CURRENT_USER (or HKCU), HKEY_CLASSES_ROOT (or HKCR), or HKEY_CURRENT_CONFIG (or HKCC).</p>
-      <p>To access a remote registry, prepend the computer name and a colon, as in this example: \\workstation01:HKEY_LOCAL_MACHINE</p></dd>
+      <p>To access a <a href="#remote">remote registry</a>, prepend the computer name and a colon, as in this example: \\workstation01:HKEY_LOCAL_MACHINE</p></dd>
 
   <dt>Key</dt>
   <dd><p>The name of the key (e.g. Software\SomeApplication). If blank or omitted, the contents of <em>RootKey</em> will be retrieved.</p></dd>
   
-  <dt>Mode <span class="ver">[v1.1.21+]</span></dt>
-  <dd><p>Zero or more of the following letters:</p>
-    <p><code>K</code>: Include keys.<br>
-    <code>V</code>: Include values. Values are also included if both K and V are omitted.<br>
-    <code>R</code>: Recurse into subkeys. If R is omitted, keys and values within subkeys of <em>Key</em> are not included.</p>
-  </dd>
-
   <dt>IncludeSubkeys?</dt>
   <dd><p>0 (default) Subkeys contained within <em>Key</em> are not retrieved (only the values).<br>
-  1 All values and subkeys are retrieved.<br>
-  2 Only the subkeys are retrieved (not the values).</p></dd>
+      1 All values and subkeys are retrieved.<br>
+      2 Only the subkeys are retrieved (not the values).</p></dd>
 
   <dt>Recurse?</dt>
   <dd>0 (default) Subkeys are not recursed into.<br>
-1 Subkeys are recursed into, so that all values and subkeys contained therein are retrieved.</dd>
+      1 Subkeys are recursed into, so that all values and subkeys contained therein are retrieved.</dd>
 
 </dl>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>A registry-loop is useful when you want to operate on a collection registry values or subkeys, one at a time. The values and subkeys are retrieved in reverse order (bottom to top) so that <a href="RegDelete.htm">RegDelete</a> can be used inside the loop without disrupting the loop.</p>
 <p id="vars">The following variables exist within any registry-loop. If an inner registry-loop is enclosed by an outer registry-loop, the innermost loop's registry item will take precedence:</p>
 <table class="info">
@@ -64,7 +77,7 @@
   </tr>
   <tr>
     <td>A_LoopRegSubKey</td>
-    <td>Name of the current SubKey. This will be the same as the <em>Key</em> parameter unless the <em>Recurse</em> parameter is being used to recursively explore other subkeys. In that case, it will be the full path of the currently retrieved item, not including the root key. For example: Software\SomeApplication\My SubKey</td>
+    <td>Name of the current subkey. This will be the same as the <em>Key</em> parameter unless the <em>Recurse</em> parameter is being used to recursively explore other subkeys. In that case, it will be the full path of the currently retrieved item, not including the root key. For example: Software\SomeApplication\My SubKey</td>
   </tr>
   <tr>
     <td>A_LoopRegTimeModified</td>
@@ -86,7 +99,7 @@
     <td>Deletes the current item. If the current item is a key, it will be deleted along with any subkeys and values it contains.</td>
   </tr>
 </table>
-<p>When accessing a remote registry (via the <em>RootKey</em> parameter described above), the following notes apply:</p>
+<p id="remote">When accessing a remote registry (via the <em>RootKey</em> or <em>KeyName</em> parameter described above), the following notes apply:</p>
 <ul>
   <li>The target machine must be running the Remote Registry service.</li>
   <li>Access to a remote registry may fail if the target computer is not in the same domain as yours or the local or remote username  lacks sufficient permissions (however, see below for possible workarounds).</li>
@@ -96,54 +109,59 @@
   <li>For Windows XP Home Edition, MSDN states that &quot;this function always fails&quot;. Home Edition lacks both the registry server and client, though the client can be extracted from one of the OS cab files.</li>
 </ul>
 <p>See <a href="Loop.htm">Loop</a> for information about <a href="Block.htm">Blocks</a>, <a href="Break.htm">Break</a>, <a href="Continue.htm">Continue</a>, and the A_Index variable (which exists in every type of loop).</p>
-<h3>Related</h3>
+
+<h2>Related</h2>
 <p><a href="Loop.htm">Loop</a>, <a href="Break.htm">Break</a>, <a href="Continue.htm">Continue</a>, <a href="Block.htm">Blocks</a>, <a href="RegRead.htm">RegRead</a>, <a href="RegWrite.htm">RegWrite</a>, <a href="RegDelete.htm">RegDelete</a>, <a href="SetRegView.htm">SetRegView</a></p>
 
-<h3>Examples</h3>
-<pre class="NoIndent"><em>; Example: Delete Internet Explorer's history of URLs typed by the user:</em>
-Loop, HKEY_CURRENT_USER, Software\Microsoft\Internet Explorer\TypedURLs
+<h2>Examples</h2>
+<div class="ex" id="ExRegDelete">
+<p><a href="#ExRegDelete">#1</a>: Delete Internet Explorer's history of URLs typed by the user:</p>
+<pre>Loop, HKEY_CURRENT_USER, Software\Microsoft\Internet Explorer\TypedURLs
     RegDelete</pre>
-<p>&nbsp;</p>
-<pre class="NoIndent"><em>; Example: A working test script:</em>
-Loop, Reg, HKEY_CURRENT_USER\Software\Microsoft\Windows, KVR
+</div>
+
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#2</a>: A working test script:</p>
+<pre>Loop, Reg, HKEY_CURRENT_USER\Software\Microsoft\Windows, KVR
 {
-    if a_LoopRegType = key
-        value =
+    if (A_LoopRegType = "key")
+        value := ""
     else
     {
         RegRead, value
         if ErrorLevel
-            value = *error*
+            value := "*error*"
     }
-    MsgBox, 4, , %a_LoopRegName% = %value% (%a_LoopRegType%)`n`nContinue?
+    MsgBox, 4, , %A_LoopRegName% = %value% (%A_LoopRegType%)`n`nContinue?
     IfMsgBox, NO, break
 }</pre>
-<p>&nbsp;</p>
-<pre class="NoIndent"><em>; Example: A working example to recursively search the entire
-; registry for particular value(s).</em>
-SetBatchLines -1  <em>; Makes searching occur at maximum speed.</em>
-RegSearchTarget = Notepad  <em>; Tell the subroutine what to search for.</em>
+</div>
+
+<div class="ex" id="ExRegSearch">
+<p><a href="#ExRegSearch">#3</a>: A working example to recursively search the entire registry for particular value(s).</p>
+<pre>SetBatchLines -1  <em>; Makes searching occur at maximum speed.</em>
+RegSearchTarget := "Notepad"  <em>; Tell the subroutine what to search for.</em>
 Gosub, RegSearch
 return
 
 RegSearch:
-ContinueRegSearch = y
+ContinueRegSearch := true
 Loop, Reg, HKEY_LOCAL_MACHINE, KVR
 {
     Gosub, CheckThisRegItem
-    if ContinueRegSearch = n <em>; It told us to stop.</em>
+    if not ContinueRegSearch <em>; It told us to stop.</em>
         return
 }
 Loop, Reg, HKEY_USERS, KVR
 {
     Gosub, CheckThisRegItem
-    if ContinueRegSearch = n <em>; It told us to stop.</em>
+    if not ContinueRegSearch <em>; It told us to stop.</em>
         return
 }
 Loop, Reg, HKEY_CURRENT_CONFIG, KVR
 {
     Gosub, CheckThisRegItem
-    if ContinueRegSearch = n <em>; It told us to stop.</em>
+    if not ContinueRegSearch <em>; It told us to stop.</em>
         return
 }
 <em>; Note: I believe HKEY_CURRENT_USER does not need to be searched if HKEY_USERS
@@ -152,18 +170,19 @@ Loop, Reg, HKEY_CURRENT_CONFIG, KVR
 return
 
 CheckThisRegItem:
-if A_LoopRegType = KEY  <em>; Remove these two lines if you want to check key names too.</em>
+if (A_LoopRegType = "KEY")  <em>; Remove these two lines if you want to check key names too.</em>
     return
 RegRead, RegValue
 if ErrorLevel
     return
-IfInString, RegValue, %RegSearchTarget%
+if InStr(RegValue, RegSearchTarget)
 {
     MsgBox, 4, , The following match was found:`n%A_LoopRegKey%\%A_LoopRegSubKey%\%A_LoopRegName%`nValue = %RegValue%`n`nContinue?
     IfMsgBox, No
-        ContinueRegSearch = n  <em>; Tell our caller to stop searching.</em>
+        ContinueRegSearch := false  <em>; Tell our caller to stop searching.</em>
 }
 return</pre>
+</div>
 
 </body>
 </html>

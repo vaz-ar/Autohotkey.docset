@@ -1,22 +1,25 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>SetCapsLockState/SetNumLockState/SetScrollLockState</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>SetCapsLockState / SetNumLockState / SetScrollLockState - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The SetCapsLockState, SetNumLockState and SetScrollLockState commands set the state of the corresponding key. Can also force the key to stay on or off." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
 </head>
 <body>
 
-<h1>SetCapsLockState/SetNumLockState/SetScrollLockState</h1>
+<h1>SetCapsLockState / SetNumLockState / SetScrollLockState</h1>
 
-<p>Sets the state of the Capslock/NumLock/ScrollLock key. Can also force the key to stay on or off.</p>
+<p>Sets the state of the <kbd>CapsLock</kbd>/<kbd>NumLock</kbd>/<kbd>ScrollLock</kbd> key. Can also force the key to stay on or off.</p>
 
-<pre class="Syntax">SetCapsLockState [, State]
-SetNumLockState [, State]
-SetScrollLockState [, State]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax">
+<span class="func">SetCapsLockState</span> <span class="optional">, State</span>
+<span class="func">SetNumLockState</span> <span class="optional">, State</span>
+<span class="func">SetScrollLockState</span> <span class="optional">, State</span>
+</pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>State</dt>
@@ -24,18 +27,29 @@ SetScrollLockState [, State]</pre>
       <p><strong>On</strong>: Turns on the key and removes the AlwaysOn/Off attribute of the key (if present).</p>
 	  <p><strong>Off</strong>: Turns off the key and removes the AlwaysOn/Off attribute of the key (if present).</p>
       <p><strong>AlwaysOn</strong>: Forces the key to stay on permanently.</p>
-      <p><strong>AlwaysOff</strong>: Forces the key to stay off permanently.</p></dd>
+      <p><strong>AlwaysOff</strong>: Forces the key to stay off permanently.</p>
+      <p><span class="ver">[v1.1.30+]:</span> The decimal values 1 and 0 may be used in place of On and Off, respectively.</p>
+      </dd>
 
 </dl>
 
-<h3>Remarks</h3>
-<p>A key can also be toggled to its opposite state via the <a href="Send.htm">Send</a> command; for example: <code>Send {Capslock}</code>.</p>
+<h2>Remarks</h2>
+<p>Alternatively to <a href="#ExToggle">example #2</a> below, a key can also be toggled to its opposite state via the <a href="Send.htm">Send</a> command; for example: <code>Send {CapsLock}</code>. However, sending {CapsLock} might require <code><a href="SetStoreCapslockMode.htm">SetStoreCapsLockMode</a> Off</code> beforehand.</p>
 <p>Keeping a key <em>AlwaysOn</em> or <em>AlwaysOff</em> requires the <a href="_InstallKeybdHook.htm">keyboard hook</a>, which will be automatically installed in such cases.</p>
-<h3>Related</h3>
-<p><a href="SetStoreCapslockMode.htm">SetStoreCapslockMode</a>, <a href="GetKeyState.htm">GetKeyState</a></p>
-<h3>Examples</h3>
-<pre class="NoIndent">SetNumlockState, on
+<h2>Related</h2>
+<p><a href="SetStoreCapslockMode.htm">SetStoreCapsLockMode</a>, <a href="GetKeyState.htm">GetKeyState</a></p>
+<h2>Examples</h2>
+
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>SetNumLockState, On
 SetScrollLockState, AlwaysOff</pre>
+</div>
+
+<div class="ex" id="ExToggle">
+<p><a href="#ExToggle">#2</a>: Toggles <kbd>CapsLock</kbd> to its opposite state:</p>
+<pre>SetCapsLockState % !GetKeyState("CapsLock", "T") <em>; requires <span class="ver">[v1.1.30+]</span></em></pre>
+</div>
 
 </body>
 </html>

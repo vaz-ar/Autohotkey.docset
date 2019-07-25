@@ -1,30 +1,35 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>#EscapeChar (and explanation of escape sequences)</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>#EscapeChar - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The #EscapeChar directive changes the script's escape character (e.g. accent vs. backslash). Also includes the explanation of escape sequences." />
+<meta name="ahk:equiv-v2" content="misc/EscapeChar.htm" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
 </head>
 <body>
 
-<h1>#EscapeChar (and explanation of escape sequences)</h1>
+<h1>#EscapeChar <span class="headnote">(and explanation of escape sequences)</span></h1>
 
 <p>Changes the script's escape character (e.g. accent vs. backslash).</p>
+<p class="note"><strong>Note:</strong> This directive is not recommended for use in new scripts because a) it does more harm than good and b) it is no longer available in
+  <a href="https://www.autohotkey.com/v2/">AutoHotkey v2</a>.</p>
 
-<pre class="Syntax">#EscapeChar NewChar</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">#EscapeChar</span> NewChar</pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>NewChar</dt>
   <dd><p>Specify a single character.</p></dd>
 
 </dl>
-<h3>Remarks</h3>
+<h2 id="Remarks">Remarks</h2>
 <p>The escape character is used to indicate that the character immediately following it should be interpreted differently than it normally would.</p>
-<p>The default escape character is accent/backtick (`).</p>
-<h3>Escape Sequences (when accent is the escape character)</h3>
+<p>The default escape character is accent/backtick (`), which is at the upper left corner of most English keyboards. Using this character rather than backslash avoids the need for double blackslashes in file paths.</p>
+<h2>Escape Sequences</h2>
+<p>In AutoHotkey the following escape sequences can be used (when the accent is the escape character):</p>
 <table class="info">
   <tr>
     <th style="width:15%">Type This</th>
@@ -32,7 +37,10 @@
   </tr>
   <tr>
     <td>`,</td>
-    <td>, (literal comma). <strong>Note:</strong> Commas that appear within the last parameter of a command do not need to be escaped because the program knows to treat them literally. The same is true for all parameters of <a href="MsgBox.htm">MsgBox</a> because it has smart comma handling.</td>
+    <td>
+      <p>, (literal comma).</p>
+      <p class="note"><strong>Note:</strong> Commas that appear within the last parameter of a command do not need to be escaped because the program knows to treat them literally (but it is best to escape them anyway, for clarity). The same is true for all parameters of <a href="MsgBox.htm">MsgBox</a> because it has smart comma handling.</p>
+    </td>
   </tr>
   <tr>
     <td>`%</td>
@@ -44,11 +52,14 @@
   </tr>
   <tr>
     <td>`;</td>
-    <td>&nbsp;; (literal semicolon). <strong>Note:</strong> This is necessary <u>only</u> if a semicolon has a space or tab to its left. If it does not, it will be recognized correctly without being escaped.</td>
+    <td>
+      <p>; (literal semicolon).</p>
+      <p class="note"><strong>Note:</strong> It is not necessary to escape a semicolon which has any character <u>other than</u> space or tab to its immediate left, since it would not be interpreted as a comment anyway.</p>
+    </td>
   </tr>
   <tr>
     <td>`::</td>
-    <td>:: (literal pair of colons). In v1.0.40+, it is no longer necessary to escape these.</td>
+    <td>:: (literal pair of colons). <span class="ver">[v1.0.40+]</span>: It is no longer necessary to escape these, except when used literally in a <a href="../Hotstrings.htm">hotstring</a>'s replacement text.</td>
   </tr>
   <tr>
     <td>`n</td>
@@ -68,15 +79,15 @@
   </tr>
   <tr>
     <td>`v</td>
-    <td>vertical tab -- corresponds to Ascii value 11. It can also be manifest in some applications by typing Control+K.</td>
+    <td>vertical tab -- corresponds to Ascii value 11. It can also be manifest in some applications by typing <kbd>Control</kbd>+<kbd>K</kbd>.</td>
   </tr>
   <tr>
     <td>`a</td>
-    <td>alert (bell) -- corresponds to Ascii value 7. It can also be manifest in some applications by typing Control+G.</td>
+    <td>alert (bell) -- corresponds to Ascii value 7. It can also be manifest in some applications by typing <kbd>Control</kbd>+<kbd>G</kbd>.</td>
   </tr>
   <tr>
     <td>`f</td>
-    <td>formfeed -- corresponds to Ascii value 12. It can also be manifest in some applications by typing Control+L.</td>
+    <td>formfeed -- corresponds to Ascii value 12. It can also be manifest in some applications by typing <kbd>Control</kbd>+<kbd>L</kbd>.</td>
   </tr>
   <tr>
     <td>Send</td>
@@ -87,12 +98,17 @@
     <td>Within an <a href="../Variables.htm#Expressions">expression</a>, two consecutive quotes enclosed inside a literal string resolve to a single literal quote. For example: <code>Var := &quot;The color &quot;&quot;red&quot;&quot; was found.&quot;</code>.</td>
   </tr>
 </table>
-<h3>Related</h3>
+<h2>Related</h2>
 <p>The following rarely used directives also exist; their usage is shown in these examples:</p>
 <pre>#DerefChar #  <em id="DerefChar">; Change it from its normal default, which is %.</em>
 #Delimiter /  <em id="Delimiter">; Change it from its normal default, which is comma.</em></pre>
-<h3>Example</h3>
-<pre class="NoIndent">#EscapeChar \  <em>; Change it to be backslash instead of the default of accent (`).</em></pre>
+<p class="note"><strong>Note:</strong> These directives are not recommended for use in new scripts because a) they do more harm than good and b) they are no longer available in
+  <a href="https://www.autohotkey.com/v2/">AutoHotkey v2</a>.</p>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>#EscapeChar \  <em>; Change it to be backslash instead of the default of accent (`).</em></pre>
+</div>
 
 </body>
 </html>

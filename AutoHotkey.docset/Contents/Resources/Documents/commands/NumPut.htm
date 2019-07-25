@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>NumPut</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>NumPut() - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The NumPut function stores a number in binary format at the specified address+offset." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
 </head>
@@ -10,9 +12,9 @@
 
 <h1>NumPut</h1>
 <p>Stores a number in binary format at the specified address+offset.</p>
-<pre class="Syntax">NumPut(Number, VarOrAddress [, Offset = 0][, Type = &quot;UPtr&quot;])</pre>
+<pre class="Syntax"><span class="func">NumPut</span>(Number, VarOrAddress <span class="optional">, Offset := 0</span><span class="optional">, Type := "UPtr"</span>)</pre>
 
-<h3>Parameters</h3>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Number</dt>
@@ -30,22 +32,23 @@
   <dt>Type</dt>
   <dd>
     <p>One of the following strings (defaults to UPtr if omitted):<br>
-    UInt, Int, Int64, Short, UShort, Char, UChar, Double, Float, Ptr or UPtr</p>
+    UInt, UInt64, Int, Int64, Short, UShort, Char, UChar, Double, Float, Ptr or UPtr</p>
+    <p>UInt64 is supported in <span class="ver">[v1.0.48+]</span> by allowing large unsigned values to be passed as strings. In earlier versions and for all other integer types, or when passing pure integers, signed vs. unsigned does not affect the result due to the use of two's complement to represent signed integers.</p>
     <p>Unlike DllCall, these must be enclosed in quotes when used as literal strings.</p>
     <p>For details see <a href="DllCall.htm#types">DllCall Types</a>.</p>
   </dd>
 
 </dl>
 
-<h3>Return Value</h3>
+<h2>Return Value</h2>
 <p>If the target address is invalid, an empty string is returned. However, some invalid addresses cannot be detected as such and may cause unpredictable behaviour.</p>
 <p>Otherwise, the address to the right of the item just written is returned. This is often used when writing a sequence of numbers of different types, such as in a structure for use with DllCall.</p>
 
-<h3>General Remarks</h3>
+<h2>General Remarks</h2>
 <p>If an integer is too large to fit in the specified <em>Type</em>, its most significant bytes are ignored; e.g. <code>NumPut(257, var, 0, &quot;Char&quot;)</code> would store the number 1.</p>
 <p>If only three parameters are present, the third parameter can be either <em>Offset</em> or <em>Type</em>. For example, <code>NumPut(x, var, "int")</code> is valid.</p>
 
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="NumGet.htm">NumGet</a>, <a href="DllCall.htm">DllCall</a>, <a href="VarSetCapacity.htm">VarSetCapacity</a></p>
 
 

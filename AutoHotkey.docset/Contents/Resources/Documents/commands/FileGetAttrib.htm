@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>FileGetAttrib</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>FileGetAttrib - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The FileGetAttrib command reports whether a file or folder is read-only, hidden, etc." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,48 +14,50 @@
 
 <p>Reports whether a file or folder is read-only, hidden, etc.</p>
 
-<pre class="Syntax">FileGetAttrib, OutputVar [, Filename]
-<a href="FileGetAttrib.htm#attrib">AttributeString</a> := <a href="../Functions.htm#FileExist">FileExist</a>(FilePattern)</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">FileGetAttrib</span>, OutputVar <span class="optional">, Filename</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>OutputVar</dt>
   <dd><p>The name of the variable in which to store the retrieved text.</p></dd>
 
   <dt>Filename</dt>
-  <dd><p>The name of the target file, which is assumed to be in <a href="../Variables.htm#WorkingDir">%A_WorkingDir%</a> if an absolute path isn't specified. If omitted, the current file of the innermost enclosing <a href="LoopFile.htm">File-Loop</a> will be used instead.</p></dd>
+  <dd><p>The name of the target file, which is assumed to be in <a href="../Variables.htm#WorkingDir">%A_WorkingDir%</a> if an absolute path isn't specified. If omitted, the current file of the innermost enclosing <a href="LoopFile.htm">File-Loop</a> will be used instead. Unlike <a href="FileExist.htm">FileExist</a>, this must be a true filename, not a pattern.</p></dd>
 
 </dl>
-<h3>ErrorLevel</h3>
-<p><span class="ver">[v1.1.04+]</span> This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
+<h2>Error Handling</h2>
+<p><span class="ver">[v1.1.04+]</span>: This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
 <p><a href="../misc/ErrorLevel.htm">ErrorLevel</a> is set to 1 if there was a problem or 0 otherwise.</p>
 <p><a href="../Variables.htm#LastError">A_LastError</a> is set to the result of the operating system's GetLastError() function.</p>
 
-<h3>Remarks</h3>
-<p id="attrib">The string returned will contain a subset of the letters in the string &quot;RASHNDOCT&quot;:<br>
-  <br>
-R = READONLY<br>
-A = ARCHIVE<br>
-S = SYSTEM<br>
-H = HIDDEN<br>
-N = NORMAL<br>
-D = DIRECTORY<br>
-O = OFFLINE<br>
-C = COMPRESSED<br>
-T = TEMPORARY</p>
-<p><br>
-  To check if a particular attribute is present in the retrieved string, following this example:</p>
+<h2>Remarks</h2>
+<p id="attrib">The string returned will contain a subset of the letters in the string &quot;RASHNDOCT&quot;:</p>
+<ul>
+  <li>R = READONLY</li>
+  <li>A = ARCHIVE</li>
+  <li>S = SYSTEM</li>
+  <li>H = HIDDEN</li>
+  <li>N = NORMAL</li>
+  <li>D = DIRECTORY</li>
+  <li>O = OFFLINE</li>
+  <li>C = COMPRESSED</li>
+  <li>T = TEMPORARY</li>
+</ul>
+<p>To check if a particular attribute is present in the retrieved string, following this example:</p>
 <pre>FileGetAttrib, Attributes, C:\My File.txt
-IfInString, Attributes, H
+if InStr(Attributes, "H")
     MsgBox The file is hidden.</pre>
 <p>On a related note, to retrieve a file's 8.3 short name, follow this example:</p>
 <pre><a href="LoopFile.htm">Loop</a>, C:\My Documents\Address List.txt
-    ShortPathName = %A_LoopFileShortPath%  <em>; Will yield something similar to C:\MYDOCU~1\ADDRES~1.txt</em></pre>
+    ShortPathName := A_LoopFileShortPath  <em>; Will yield something similar to C:\MYDOCU~1\ADDRES~1.txt</em></pre>
 <p>A similar method can be used to get the long name of an 8.3 short name.</p>
-<h3>Related</h3>
-<p><a href="../Functions.htm#FileExist">FileExist()</a>, <a href="FileSetAttrib.htm">FileSetAttrib</a>, <a href="FileGetTime.htm">FileGetTime</a>, <a href="FileSetTime.htm">FileSetTime</a>, <a href="FileGetSize.htm">FileGetSize</a>, <a href="FileGetVersion.htm">FileGetVersion</a>, <a href="LoopFile.htm">File-loop</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">FileGetAttrib, OutputVar, C:\New Folder</pre>
+<h2>Related</h2>
+<p><a href="FileExist.htm">FileExist()</a>, <a href="FileSetAttrib.htm">FileSetAttrib</a>, <a href="FileGetTime.htm">FileGetTime</a>, <a href="FileSetTime.htm">FileSetTime</a>, <a href="FileGetSize.htm">FileGetSize</a>, <a href="FileGetVersion.htm">FileGetVersion</a>, <a href="LoopFile.htm">File-loop</a></p>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>FileGetAttrib, OutputVar, C:\New Folder</pre>
+</div>
 
 </body>
 </html>

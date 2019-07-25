@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>EnvAdd</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>EnvAdd - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The EnvAdd command sets a variable to the sum of itself plus the given value (can also add or subtract time from a date-time value)." />
+<meta name="ahk:equiv-v2" content="commands/DateAdd.htm" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,10 +15,12 @@
 
 <p>Sets a <a href="../Variables.htm">variable</a> to the sum of itself plus the given value (can also add or subtract time from a <a href="FileSetTime.htm#YYYYMMDD">date-time</a> value). Synonymous with: <code>var += value</code>.</p>
 
-<pre class="Syntax">EnvAdd, Var, Value [, TimeUnits]
-Var += Value [, TimeUnits]
-Var++</pre>
-<h3>Parameters</h3>
+<pre class="Syntax">
+<span class="func">EnvAdd</span>, Var, Value <span class="optional">, TimeUnits</span>
+Var += Value <span class="optional">, TimeUnits</span>
+Var++
+</pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Var</dt>
@@ -33,20 +37,26 @@ Var++</pre>
 
 </dl>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>This command is equivalent to the shorthand style: <code>Var += Value</code>.</p>
 <p>Variables can be increased or decreased by 1 by using <code>Var++</code>, <code>Var--</code>, <code>++Var</code>, or <code>--Var</code>.</p>
 <p>If either <em>Var</em> or <em>Value</em> is blank or does not start with a number, it is considered to be 0 for the purpose of the calculation (except when used <em>internally</em> in an expression and except when using the <em>TimeUnits</em> parameter).</p>
 <p>If either <em>Var</em> or <em>Value</em> contains a decimal point, the end result will be a floating point number in the format set by <a href="SetFormat.htm">SetFormat</a>.</p>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="EnvSub.htm">EnvSub</a>, <a href="EnvMult.htm">EnvMult</a>, <a href="EnvDiv.htm">EnvDiv</a>, <a href="SetFormat.htm">SetFormat</a>, <a href="../Variables.htm#Expressions">Expressions</a>, <a href="IfIs.htm">If var is [not] type</a>, <a href="SetEnv.htm">SetEnv</a>, <a href="FileGetTime.htm">FileGetTime</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">EnvAdd, MyCount, 2
-MyCount += 2  <em>; Equivalent to above</em>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>EnvAdd, MyCount, 2
+MyCount += 2  <em>; Equivalent to above</em></pre>
+</div>
 
-var1 =  <em>; Make it blank so that the below will use the current time instead.</em>
+<div class="ex" id="ExDate">
+<p><a href="#ExDate">#2</a>: Date math.</p>
+<pre>var1 := ""  <em>; Make it blank so that the below will use the current time instead.</em>
 var1 += 31, days
 MsgBox, %var1%  <em>; The answer will be the date 31 days from now.</em></pre>
+</div>
 
 </body>
 </html>

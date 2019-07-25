@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>If var [not] between LowerBound and UpperBound</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>If Var between Low and High - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The &quot;if Var between Low and High&quot; statement checks whether a variable's contents are numerically or alphabetically between two values (inclusive)." />
+<meta name="ahk:equiv-v2" content="commands/IfExpression.htm" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,9 +15,11 @@
 
 <p>Checks whether a <a href="../Variables.htm">variable's</a> contents are numerically or alphabetically between two values (inclusive).</p>
 
-<pre class="Syntax">if <i>Var</i> between <i>LowerBound</i> and <i>UpperBound</i>
-if <i>Var</i> not between <i>LowerBound</i> and <i>UpperBound</i></pre>
-<h3>Parameters</h3>
+<pre class="Syntax">
+<span class="func">if</span> Var <span class="func">between</span> LowerBound <span class="func">and</span> UpperBound
+<span class="func">if</span> Var <span class="func">not between</span> LowerBound <span class="func">and</span> UpperBound
+</pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Var</dt>
@@ -29,29 +33,35 @@ if <i>Var</i> not between <i>LowerBound</i> and <i>UpperBound</i></pre>
 
 </dl>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>If all three of the parameters are purely numeric, they will be compared as numbers rather than as strings. Otherwise, they will be compared alphabetically as strings (that is, alphabetical order will determine whether <em>Var</em> is within the specified range). In that case, <code><a href="StringCaseSense.htm">StringCaseSense</a> On</code> can be used to make the comparison case sensitive.</p>
-<p><strong>The operators &quot;between&quot;, &quot;is&quot;, &quot;in&quot;, and &quot;contains&quot; are not supported in <a href="../Variables.htm#Expressions">expressions</a>.</strong></p>
-<h3>Related</h3>
+<p class="warning"><strong>Caution</strong>: The operators &quot;between&quot;, &quot;is&quot;, &quot;in&quot;, and &quot;contains&quot; are not supported in <a href="../Variables.htm#Expressions">expressions</a>.</p>
+<h2>Related</h2>
 <p><a href="IfEqual.htm">IfEqual/Greater/Less</a>, <a href="IfIn.htm">if var in/contains MatchList</a>, <a href="IfIs.htm">if var is type</a>, <a href="IfInString.htm">IfInString</a>, <a href="StringCaseSense.htm">StringCaseSense</a>, <a href="EnvAdd.htm">EnvAdd</a><a href="Block.htm">, Blocks</a>, <a href="Else.htm">Else</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">if var between 1 and 5
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>if var between 1 and 5
     MsgBox, %var% is in the range 1 to 5, inclusive.
 
-if var <strong>not</strong> between 0.0 and 1.0
+if var not between 0.0 and 1.0
     MsgBox %var% is not in the range 0.0 to 1.0, inclusive.
 
 if var between %VarLow% and %VarHigh%
     MsgBox %var% is between %VarLow% and %VarHigh%.
 
 if var between blue and red
-    MsgBox %var% is alphabetically between the words blue and red.
+    MsgBox %var% is alphabetically between the words blue and red.</pre>
+</div>
 
-LowerLimit = 1
-UpperLimit = 10
+<div class="ex" id="ExInputBox">
+<p><a href="#ExInputBox">#2</a></p>
+<pre>LowerLimit := 1
+UpperLimit := 10
 InputBox, UserInput, Enter a number between %LowerLimit% and %UpperLimit%
 if UserInput not between %LowerLimit% and %UpperLimit%
     MsgBox Your input is not within the valid range.</pre>
+</div>
 
 </body>
 </html>

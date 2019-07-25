@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>Return</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Return - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The Return statement returns from a subroutine to which execution had previously jumped via function-call, Gosub, Hotkey activation, or other means." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,8 +14,8 @@
 
 <p>Returns from a subroutine to which execution had previously jumped via <a href="../Functions.htm">function-call</a>, <a href="Gosub.htm">Gosub</a>, <a href="../Hotkeys.htm">Hotkey</a> activation, <a href="GroupActivate.htm">GroupActivate</a>, or other means.</p>
 
-<pre class="Syntax">Return [, Expression]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">Return</span> <span class="optional">, Expression</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Expression</dt>
@@ -33,13 +34,15 @@ return %MyVar%</pre>
 <p>In other words, a single variable enclosed in percent signs is treated as a non-expression. To work around this, make it unambiguously an expression by enclosing it in parentheses; for example: <code>return (%MyVar%)</code>.</p></dd>
 
 </dl>
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>If there is no caller to which to return, <em>Return</em> will do an <a href="Exit.htm">Exit</a> instead.</p>
 <p>There are various ways to return multiple values from function to caller described within <a href="../Functions.htm#return">Returning Values to Caller</a>.</p>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="../Functions.htm">Functions</a>, <a href="Gosub.htm">Gosub</a>, <a href="Exit.htm">Exit</a>, <a href="ExitApp.htm">ExitApp</a>, <a href="GroupActivate.htm">GroupActivate</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">#z::
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>#z::
 MsgBox The Win-Z hotkey was pressed.
 Gosub MySubroutine
 <strong>return</strong>
@@ -47,6 +50,7 @@ Gosub MySubroutine
 MySubroutine:
 Sleep 1000
 <strong>return</strong></pre>
+</div>
 
 </body>
 </html>

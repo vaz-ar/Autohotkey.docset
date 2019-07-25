@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>Image Handles</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Image Handles - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="Image handles can be used in place of image filenames to use a bitmap or icon located in the memory." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -12,8 +13,10 @@
 <h1>Image Handles <span class="ver">[v1.1.23+]</span></h1>
 
 <p>To use an icon or bitmap handle in place of an image filename, use the following syntax:</p>
-<pre class="Syntax">HBITMAP:<i>bitmap-handle</i>
-HICON:<i>icon-handle</i></pre>
+<pre class="Syntax">
+HBITMAP:<i>bitmap-handle</i>
+HICON:<i>icon-handle</i>
+</pre>
 <p>Replace <em>bitmap-handle</em> or <em>icon-handle</em> with the actual handle value. For example, <code>hicon:%handle%</code> (or <code>"hicon:" handle</code> in an <a href="../Variables.htm#Expressions">expression</a>), where <em>handle</em> is a variable containing an icon handle.</p>
 <p>The following commands support this syntax:</p>
 <ul>
@@ -28,10 +31,11 @@ HICON:<i>icon-handle</i></pre>
 <p>A bitmap or icon handle is a numeric value which identifies a bitmap or icon in memory. The majority of scripts never need to deal with handles, as in most cases AutoHotkey takes care of loading the image from file and freeing it when it is no longer needed. The syntax shown above is intended for use when the script obtains an icon or bitmap handle from another source, such as by sending the WM_GETICON message to a window. It can also be used in combination with <a href="../commands/LoadPicture.htm">LoadPicture</a> to avoid loading an image from file multiple times.</p>
 <p>By default, AutoHotkey treats the handle as though it loaded the image from file - for example, a bitmap used on a Picture control is deleted when the GUI is destroyed, and an image will generally be deleted immediately if it needs to be resized. To avoid this, put an asterisk between the colon and handle. For example: <code>hbitmap:*%handle%</code> (or <code>"hbitmap:*" handle</code> in an expression). With the exception of ImageSearch, this forces the command to take a copy of the image.</p>
 
-<h3 id="Examples">Examples</h3>
-<pre class="NoIndent"><em>; Show a menu of the first n files matching a pattern, and their icons.</em>
-pattern = %A_ScriptDir%\*
-n = 15
+<h2 id="Examples">Examples</h2>
+<div class="ex" id="ExHICON">
+<p><a href="#ExHICON">#1</a>: Show a menu of the first <em>n</em> files matching a pattern, and their icons.</p>
+<pre>pattern := A_ScriptDir "\*"
+n := 15
 
 <em>; Allocate memory for a SHFILEINFOW struct.</em>
 VarSetCapacity(fileinfo, fisize := A_PtrSize + 688)
@@ -42,12 +46,12 @@ Loop, Files, %pattern%, FD
     Menu F, Add, %A_LoopFileName%, donothing
     
     <em>; Get the file's icon.</em>
-    if DllCall("shell32\SHGetFileInfoW", "wstr", A_LoopFileFullPath
-        , "uint", 0, "ptr", &fileinfo, "uint", fisize, "uint", 0x100)
+    if DllCall("shell32\SHGetFileInfoW", "WStr", A_LoopFileFullPath
+        , "UInt", 0, "Ptr", &amp;fileinfo, "UInt", fisize, "UInt", 0x100)
     {
-        hicon := NumGet(fileinfo, 0, "ptr")
+        hicon := NumGet(fileinfo, 0, "Ptr")
         <em>; Set the menu item's icon.</em>
-        Menu F, Icon, %A_Index%&, HICON:%hicon%
+        Menu F, Icon, %A_Index%&amp;, HICON:%hicon%
         <em>; Because we used ":" and not ":*", the icon will be automatically
         ; freed when the program exits or if the menu or item is deleted.</em>
     }
@@ -57,6 +61,7 @@ Menu F, Show
 donothing:
 return
 </pre>
+</div>
 <p>See also: <a href="../commands/LoadPicture.htm">LoadPicture</a>.</p>
 &nbsp;
 

@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>GroupActivate</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>GroupActivate - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The GroupActivate command activates the next window in a window group that was defined with the GroupAdd command." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,30 +14,36 @@
 
 <p>Activates the next window in a window group that was defined with <a href="GroupAdd.htm">GroupAdd</a>.  </p>
 
-<pre class="Syntax">GroupActivate, GroupName [, R]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">GroupActivate</span>, GroupName <span class="optional">, Mode</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>GroupName</dt>
   <dd><p>The name of the group to activate, as originally defined by <a href="GroupAdd.htm">GroupAdd</a>.</p></dd>
 
-  <dt>R</dt>
-  <dd><p>This determines whether the oldest or the newest window is activated whenever no members of the group are currently active. If omitted, the oldest window is always activated. If it's the letter R, the newest window (the one most recently active) is activated, but only if no members of the group are active when the command is given. &quot;R&quot; is useful in cases where you temporarily switch to working on an unrelated task. When you return to the group via <a href="GroupActivate.htm">GroupActivate</a>, <a href="GroupDeactivate.htm">GroupDeactivate</a>, or <a href="GroupClose.htm">GroupClose</a>, the window you were most recently working with is activated rather than the oldest window.</p></dd>
+  <dt>Mode</dt>
+  <dd>
+    <p>If omitted, the command activates the oldest window in the series. To change this behavior, specify the following letter:</p>
+    <p><strong>R:</strong> The newest window (the one most recently active) is activated, but only if no members of the group are active when the command is given. &quot;R&quot; is useful in cases where you temporarily switch to working on an unrelated task. When you return to the group via <a href="GroupActivate.htm">GroupActivate</a>, <a href="GroupDeactivate.htm">GroupDeactivate</a>, or <a href="GroupClose.htm">GroupClose</a>, the window you were most recently working with is activated rather than the oldest window.</p>
+  </dd>
 
 </dl>
 
-<h3>ErrorLevel <span class="ver">[AHK_L 54+]</span></h3>
+<h2>ErrorLevel <span class="ver">[AHK_L 54+]</span></h2>
 <p><a href="../misc/ErrorLevel.htm">ErrorLevel</a> is set to 1 if no window was found to activate or 0 otherwise.</p>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>This command  causes the first window that matches any of the group's window specifications to be activated. Using it a second time will activate the next window in the series and so on. Normally, it is assigned to a hotkey so that this window-traversal behavior is automated by pressing that key.</p>
 <p>When a window is activated immediately after another window was activated, task bar buttons may start flashing on some systems (depending on OS and settings). To prevent this, use <a href="_WinActivateForce.htm">#WinActivateForce</a>.</p>
 <p>See <a href="GroupAdd.htm">GroupAdd</a> for more details about window groups.</p>
 
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="GroupAdd.htm">GroupAdd</a>, <a href="GroupDeactivate.htm">GroupDeactivate</a>, <a href="GroupClose.htm">GroupClose</a>, <a href="_WinActivateForce.htm">#WinActivateForce</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">GroupActivate, MyGroup, R</pre>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>GroupActivate, MyGroup, R</pre>
+</div>
 
 </body>
 </html>

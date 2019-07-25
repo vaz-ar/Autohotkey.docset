@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>ListHotkeys</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ListHotkeys - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The ListHotkeys command displays the hotkeys in use by the current script, whether their subroutines are currently running, and whether they use a hook." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,7 +14,7 @@
 
 <p>Displays the hotkeys in use by the current script, whether their subroutines are currently running, and whether or not they use the <a href="_InstallKeybdHook.htm">keyboard</a> or <a href="_InstallMouseHook.htm">mouse</a> hook.</p>
 
-<pre class="Syntax">ListHotkeys</pre>
+<pre class="Syntax"><span class="func">ListHotkeys</span></pre>
 <p>This command is equivalent to selecting the View-&gt;Hotkeys menu item in the main window.</p>
 <p>If a hotkey has been disabled via the <a href="Hotkey.htm">Hotkey</a> command, it will be listed as OFF or PART (&quot;PART&quot; means that only some of the hotkey's <a href="Hotkey.htm#variant">variants</a> are disabled).</p>
 <p><span class="ver">[v1.1.16+]:</span> If any of a hotkey's variants have a non-zero <a href="_InputLevel.htm">#InputLevel</a>, the level (or minimum and maximum levels) are displayed.</p>
@@ -25,10 +26,13 @@
   m-hook: The hotkey is implemented via the <a href="_InstallMouseHook.htm">mouse hook</a>.<br>
   2-hooks: The hotkey requires both the hooks mentioned above.<br>
   joypoll: The hotkey is implemented by polling the joystick at regular intervals.</p>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="_InstallKeybdHook.htm">#InstallKeybdHook</a>, <a href="_InstallMouseHook.htm">#InstallMouseHook</a>, <a href="_UseHook.htm">#UseHook</a>, <a href="KeyHistory.htm">KeyHistory</a>, <a href="ListLines.htm">ListLines</a>, <a href="ListVars.htm">ListVars</a>, <a href="_MaxThreadsPerHotkey.htm">#MaxThreadsPerHotkey</a>, <a href="_MaxHotkeysPerInterval.htm">#MaxHotkeysPerInterval</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">ListHotkeys</pre>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>ListHotkeys</pre>
+</div>
 
 </body>
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>SoundBeep</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>SoundBeep - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The SoundBeep command emits a tone from the PC speaker." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,8 +14,8 @@
 
 <p>Emits a tone from the PC speaker.</p>
 
-<pre class="Syntax">SoundBeep [, Frequency, Duration]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">SoundBeep</span> <span class="optional">, Frequency, Duration</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Frequency</dt>
@@ -25,15 +26,18 @@
 
 </dl>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>The script waits for the sound to finish before continuing. In addition, system responsiveness might be reduced during sound production.</p>
 <p>If the computer lacks a sound card, a standard beep is played through the PC speaker.</p>
 <p>To produce the standard system sounds instead of beeping the PC Speaker, see the asterisk mode of <a href="SoundPlay.htm">SoundPlay</a>.</p>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="SoundPlay.htm">SoundPlay</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">SoundBeep  <em>; Play the default pitch and duration.</em>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>SoundBeep  <em>; Play the default pitch and duration.</em>
 SoundBeep, 750, 500  <em>; Play a higher pitch for half a second.</em></pre>
+</div>
 
 </body>
 </html>

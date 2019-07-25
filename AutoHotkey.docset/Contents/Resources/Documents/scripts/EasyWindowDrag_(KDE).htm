@@ -1,20 +1,21 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>Easy Window Dragging -- KDE style (requires XP/2k/NT) -- by Jonny</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Easy Window Dragging (KDE) - Script Example | AutoHotkey</title>
+<meta name="description" content="This script makes it much easier to move or resize a window by holding down a modifier key while clicking a mouse button." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
 </head>
 <body>
 
-<h1>Easy Window Dragging -- KDE style (requires XP/2k/NT) -- by Jonny</h1>
+<h1>Easy Window Dragging -- KDE style (requires XP/2k/NT) <span class="headnote">by Jonny</span></h1>
 
 <p>This script makes it much easier to move or resize a window: 1) Hold down
- the ALT key and LEFT-click anywhere inside a window to drag it to a new
- location; 2) Hold down ALT and RIGHT-click-drag anywhere inside a window
- to easily resize it; 3) Press ALT twice, but before releasing it the second
+ the <kbd>Alt</kbd> key and LEFT-click anywhere inside a window to drag it to a new
+ location; 2) Hold down <kbd>Alt</kbd> and RIGHT-click-drag anywhere inside a window
+ to easily resize it; 3) Press <kbd>Alt</kbd> twice, but before releasing it the second
  time, left-click to minimize the window under the mouse cursor, right-click
  to maximize it, or middle-click to close it.
 </p>
@@ -114,13 +115,13 @@ WinGetPos,KDE_WinX1,KDE_WinY1,KDE_WinW,KDE_WinH,ahk_id %KDE_id%
 <em>; Define the window region the mouse is currently in.
 ; The four regions are Up and Left, Up and Right, Down and Left, Down and Right.</em>
 If (KDE_X1 &lt; KDE_WinX1 + KDE_WinW / 2)
-   KDE_WinLeft := 1
+    KDE_WinLeft := 1
 Else
-   KDE_WinLeft := -1
+    KDE_WinLeft := -1
 If (KDE_Y1 &lt; KDE_WinY1 + KDE_WinH / 2)
-   KDE_WinUp := 1
+    KDE_WinUp := 1
 Else
-   KDE_WinUp := -1
+    KDE_WinUp := -1
 Loop
 {
     GetKeyState,KDE_Button,RButton,P <em>; Break if button has been released.</em>
@@ -156,7 +157,7 @@ return
 
 <em>; This detects &quot;double-clicks&quot; of the alt key.</em>
 ~Alt::
-DoubleAlt := A_PriorHotKey = &quot;~Alt&quot; AND A_TimeSincePriorHotkey &lt; 400
+DoubleAlt := A_PriorHotkey = &quot;~Alt&quot; AND A_TimeSincePriorHotkey &lt; 400
 Sleep 0
 KeyWait Alt  <em>; This prevents the keyboard's auto-repeat feature from interfering.</em>
 return

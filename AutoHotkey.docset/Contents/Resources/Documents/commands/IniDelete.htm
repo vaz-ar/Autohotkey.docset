@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>IniDelete</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>IniDelete - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The IniDelete command deletes a value from a standard format .ini file." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,8 +14,8 @@
 
 <p>Deletes a value from a standard format .ini file.</p>
 
-<pre class="Syntax">IniDelete, Filename, Section [, Key]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">IniDelete</span>, Filename, Section <span class="optional">, Key</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Filename</dt>
@@ -27,17 +28,20 @@
   <dd><p>The key name in the .ini file. <strong>If omitted, the entire <em>Section</em> will be deleted.</strong></p></dd>
 
 </dl>
-<h3>ErrorLevel</h3>
-<p><span class="ver">[v1.1.04+]</span> This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
+<h2>Error Handling</h2>
+<p><span class="ver">[v1.1.04+]</span>: This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
 <p><a href="../misc/ErrorLevel.htm">ErrorLevel</a> is set to 1 if there was a problem or 0 otherwise.</p>
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>A standard ini file looks like:</p>
 <pre>[SectionName]
 Key=Value</pre>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="IniRead.htm">IniRead</a>, <a href="IniWrite.htm">IniWrite</a>, <a href="RegDelete.htm">RegDelete</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">IniDelete, C:\Temp\myfile.ini, section2, key</pre>
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>IniDelete, C:\Temp\myfile.ini, section2, key</pre>
+</div>
 
 </body>
 </html>

@@ -101,13 +101,13 @@ WinGetPos,KDE_WinX1,KDE_WinY1,KDE_WinW,KDE_WinH,ahk_id %KDE_id%
 ; Define the window region the mouse is currently in.
 ; The four regions are Up and Left, Up and Right, Down and Left, Down and Right.
 If (KDE_X1 < KDE_WinX1 + KDE_WinW / 2)
-   KDE_WinLeft := 1
+    KDE_WinLeft := 1
 Else
-   KDE_WinLeft := -1
+    KDE_WinLeft := -1
 If (KDE_Y1 < KDE_WinY1 + KDE_WinH / 2)
-   KDE_WinUp := 1
+    KDE_WinUp := 1
 Else
-   KDE_WinUp := -1
+    KDE_WinUp := -1
 Loop
 {
     GetKeyState,KDE_Button,RButton,P ; Break if button has been released.
@@ -143,7 +143,7 @@ return
 
 ; This detects "double-clicks" of the alt key.
 ~Alt::
-DoubleAlt := A_PriorHotKey = "~Alt" AND A_TimeSincePriorHotkey < 400
+DoubleAlt := A_PriorHotkey = "~Alt" AND A_TimeSincePriorHotkey < 400
 Sleep 0
 KeyWait Alt  ; This prevents the keyboard's auto-repeat feature from interfering.
 return

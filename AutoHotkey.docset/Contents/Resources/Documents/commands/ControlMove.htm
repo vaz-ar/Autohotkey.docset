@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>ControlMove</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ControlMove - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The ControlMove command moves or resizes a control." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,8 +14,8 @@
 
 <p>Moves or resizes a control.</p>
 
-<pre class="Syntax">ControlMove, Control, X, Y, Width, Height [, WinTitle, WinText, ExcludeTitle, ExcludeText]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">ControlMove</span>, Control, X, Y, Width, Height <span class="optional">, WinTitle, WinText, ExcludeTitle, ExcludeText</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>Control</dt>
@@ -41,17 +42,19 @@
 
 </dl>
 
-<h3>ErrorLevel</h3>
-<p><span class="ver">[v1.1.04+]</span> This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
+<h2>Error Handling</h2>
+<p><span class="ver">[v1.1.04+]</span>: This command is able to throw an exception on failure. For more information, see <a href="Catch.htm#RuntimeErrors">Runtime Errors</a>.</p>
 <p><a href="../misc/ErrorLevel.htm">ErrorLevel</a> is set to 1 if there was a problem or 0 otherwise.</p>
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>To improve reliability, a delay is done automatically after every use of this command. That delay can be changed via <a href="SetControlDelay.htm">SetControlDelay</a>.</p>
 <p>Window titles and text are case sensitive. Hidden windows are not detected unless <a href="DetectHiddenWindows.htm">DetectHiddenWindows</a> has been turned on.</p>
 
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="ControlGetPos.htm">ControlGetPos</a>, <a href="WinMove.htm">WinMove</a>, <a href="SetControlDelay.htm">SetControlDelay</a>, <a href="Control.htm">Control</a>, <a href="ControlGet.htm">ControlGet</a>, <a href="ControlGetText.htm">ControlGetText</a>, <a href="ControlSetText.htm">ControlSetText</a>, <a href="ControlClick.htm">ControlClick</a>, <a href="ControlFocus.htm">ControlFocus</a>, <a href="ControlSend.htm">ControlSend</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">SetTimer, ControlMoveTimer
+<h2>Examples</h2>
+<div class="ex" id="ExControlMoveTimer">
+<p><a href="#ExControlMoveTimer">#1</a></p>
+<pre>SetTimer, ControlMoveTimer
 InputBox, OutputVar, My Input Box
 return
 
@@ -59,10 +62,11 @@ ControlMoveTimer:
 IfWinNotExist, My Input Box
     return
 <em>; Otherwise the above set the &quot;last found&quot; window for us:</em>
-SetTimer, ControlMoveTimer, off
+SetTimer, ControlMoveTimer, Off
 WinActivate
-<strong>ControlMove, OK, 10, , 200</strong>  <em>; Move the OK button to the left and increase its width.</em>
+ControlMove, OK, 10, , 200  <em>; Move the OK button to the left and increase its width.</em>
 return</pre>
+</div>
 
 </body>
 </html>

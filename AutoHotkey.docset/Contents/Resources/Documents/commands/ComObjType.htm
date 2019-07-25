@@ -1,72 +1,77 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>ComObjType()</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ComObjType() - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The ComObjType function retrieves type information from a COM object." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
 </head>
 <body>
 
-<h1>ComObjType() <span class="ver">[v1.0.91+]</span></h1>
+<h1>ComObjType() <span class="ver">[AHK_L 53+]</span></h1>
 
 <p>Retrieves type information from a COM object.</p>
 
-<pre class="Syntax">VarType := ComObjType(ComObject)
-Name    := ComObjType(ComObject, "Name")
-IID     := ComObjType(ComObject, "IID")</pre>
+<pre class="Syntax">
+VarType := <span class="func">ComObjType</span>(ComObject)           <em>; Requires <span class="ver">[v1.0.91+]</span></em>
+IName   := <span class="func">ComObjType</span>(ComObject, "Name")
+IID     := <span class="func">ComObjType</span>(ComObject, "IID")
+CName   := <span class="func">ComObjType</span>(ComObject, "Class")  <em>; Requires <span class="ver">[v1.1.26+]</span></em>
+CLSID   := <span class="func">ComObjType</span>(ComObject, "CLSID")  <em>; Requires <span class="ver">[v1.1.26+]</span></em></pre>
 
-<h3>Parameters</h3>
+<h2>Parameters</h2>
 <dl>
 
   <dt>ComObject</dt>
   <dd><p>A wrapper object containing a COM object or typed value.</p></dd>
-
-  <dt>VarType</dt>
-  <dd><p>An integer indicating the type of value. See below.</p></dd>
-
-  <dt>Name</dt>
-  <dd><p>An interface type name.</p></dd>
-
-  <dt>IID</dt>
-  <dd><p>A globally unique identifier (GUID) representing the interface type.</p></dd>
+  
+  <dt>Param2</dt>
+  <dd><p>The second parameter is a string indicating the type information to retrieve.</p></dd>
 
 </dl>
 
-<h3>Return Value</h3>
-<p>If the second parameter is omitted, the variant type of the value contained by the wrapper object is returned.</p>
-<p>If the second parameter is "Name" or "IID" and the wrapper object contains a COM object (variant type VT_DISPATCH), the COM object's type name or the identifier of its primary interface is returned.</p>
-<p>If the parameters are invalid or an error occurs, an empty string is returned.</p>
+<h2>Return Value</h2>
+<p>The return value depends on the value of <em>Param2</em>:</p>
+<table class="info">
+  <tr><th style="white-space: nowrap">Param2</th><th>Return Value</th></tr>
+  <tr><td>Omitted</td><td><span class="ver">[v1.0.91+]:</span> An integer <a href="#vt">variant type code</a> indicating the type of value contained by the COM wrapper object.</td></tr>
+  <tr><td><code>"Name"</code></td><td>The name of the object's default interface.</td></tr>
+  <tr><td><code>"IID"</code></td><td>The globally unique identifier (GUID) of the object's default interface.</td></tr>
+  <tr><td><code>"Class"</code></td><td><span class="ver">[v1.1.26+]:</span> The object's class name. Note that this is not the same as a Prog ID (a Prog ID is a name used to identify the class in the system registry, or for ComObjCreate).</td></tr>
+  <tr><td><code>"CLSID"</code></td><td><span class="ver">[v1.1.26+]:</span> The globally unique identifier (GUID) of the object's class. Classes are often registered by CLSID under the <code>HKCR\CLSID</code> registry key.</td></tr>
+</table>
+<p>An empty string is returned if either parameter is invalid or if the requested type information could not be retrieved.</p>
 
-<h3 id="vt">Variant Type Constants</h3>
+<h2 id="vt">Variant Type Constants</h2>
 <pre>
-VT_EMPTY     =      0  <em>; No value</em>
-VT_NULL      =      1  <em>; SQL-style Null</em>
-VT_I2        =      2  <em>; 16-bit signed int</em>
-VT_I4        =      3  <em>; 32-bit signed int</em>
-VT_R4        =      4  <em>; 32-bit floating-point number</em>
-VT_R8        =      5  <em>; 64-bit floating-point number</em>
-VT_CY        =      6  <em>; Currency</em>
-VT_DATE      =      7  <em>; Date</em>
-VT_BSTR      =      8  <em>; COM string (Unicode string with length prefix)</em>
-VT_DISPATCH  =      9  <em>; COM object</em>
-VT_ERROR     =    0xA  <em>; Error code (32-bit integer)</em>
-VT_BOOL      =    0xB  <em>; Boolean True (-1) or False (0)</em>
-VT_VARIANT   =    0xC  <em>; <a href="http://msdn.microsoft.com/en-us/library/ms221627.aspx">VARIANT</a> (must be combined with VT_ARRAY or VT_BYREF)</em>
-VT_UNKNOWN   =    0xD  <em>; IUnknown interface pointer</em>
-VT_DECIMAL   =    0xE  <em>; (not supported)</em>
-VT_I1        =   0x10  <em>; 8-bit signed int</em>
-VT_UI1       =   0x11  <em>; 8-bit unsigned int</em>
-VT_UI2       =   0x12  <em>; 16-bit unsigned int</em>
-VT_UI4       =   0x13  <em>; 32-bit unsigned int</em>
-VT_I8        =   0x14  <em>; 64-bit signed int</em>
-VT_UI8       =   0x15  <em>; 64-bit unsigned int</em>
-VT_INT       =   0x16  <em>; Signed machine int</em>
-VT_UINT      =   0x17  <em>; Unsigned machine int</em>
-VT_RECORD    =   0x24  <em>; User-defined type -- NOT SUPPORTED</em>
-VT_ARRAY     = 0x2000  <em>; <a href="http://msdn.microsoft.com/en-us/library/ms221482.aspx">SAFEARRAY</a></em>
-VT_BYREF     = 0x4000  <em>; Pointer to another type of value</em>
+VT_EMPTY     :=      0  <em>; No value</em>
+VT_NULL      :=      1  <em>; SQL-style Null</em>
+VT_I2        :=      2  <em>; 16-bit signed int</em>
+VT_I4        :=      3  <em>; 32-bit signed int</em>
+VT_R4        :=      4  <em>; 32-bit floating-point number</em>
+VT_R8        :=      5  <em>; 64-bit floating-point number</em>
+VT_CY        :=      6  <em>; Currency</em>
+VT_DATE      :=      7  <em>; Date</em>
+VT_BSTR      :=      8  <em>; COM string (Unicode string with length prefix)</em>
+VT_DISPATCH  :=      9  <em>; COM object</em>
+VT_ERROR     :=    0xA  <em>; Error code (32-bit integer)</em>
+VT_BOOL      :=    0xB  <em>; Boolean True (-1) or False (0)</em>
+VT_VARIANT   :=    0xC  <em>; <a href="http://msdn.microsoft.com/en-us/library/ms221627.aspx">VARIANT</a> (must be combined with VT_ARRAY or VT_BYREF)</em>
+VT_UNKNOWN   :=    0xD  <em>; IUnknown interface pointer</em>
+VT_DECIMAL   :=    0xE  <em>; (not supported)</em>
+VT_I1        :=   0x10  <em>; 8-bit signed int</em>
+VT_UI1       :=   0x11  <em>; 8-bit unsigned int</em>
+VT_UI2       :=   0x12  <em>; 16-bit unsigned int</em>
+VT_UI4       :=   0x13  <em>; 32-bit unsigned int</em>
+VT_I8        :=   0x14  <em>; 64-bit signed int</em>
+VT_UI8       :=   0x15  <em>; 64-bit unsigned int</em>
+VT_INT       :=   0x16  <em>; Signed machine int</em>
+VT_UINT      :=   0x17  <em>; Unsigned machine int</em>
+VT_RECORD    :=   0x24  <em>; User-defined type -- NOT SUPPORTED</em>
+VT_ARRAY     := 0x2000  <em>; <a href="http://msdn.microsoft.com/en-us/library/ms221482.aspx">SAFEARRAY</a></em>
+VT_BYREF     := 0x4000  <em>; Pointer to another type of value</em>
 <em>/*
  VT_ARRAY and VT_BYREF are combined with another value (using bitwise OR)
  to specify the exact type. For instance, 0x2003 identifies a <a href="http://msdn.microsoft.com/en-us/library/ms221482.aspx">SAFEARRAY</a>
@@ -74,22 +79,30 @@ VT_BYREF     = 0x4000  <em>; Pointer to another type of value</em>
 */</em>
 </pre>
 
-<h3>General Remarks</h3>
+<h2>General Remarks</h2>
 <p>In most common cases, return values from methods or properties of COM objects are converted to an appropriate data type supported by AutoHotkey. Types which aren't specifically handled are coerced to strings via <a href="http://msdn.microsoft.com/en-us/library/ms221258.aspx">VariantChangeType</a>; if this fails or if the variant type contains the VT_ARRAY or VT_BYREF flag, an object containing both the value and its type is returned instead.</p>
 <p>For any variable <i>x</i>, if <code>ComObjType(x)</code> returns an integer, <i>x</i> contains a COM object wrapper.</p>
+<p>If <em>Param2</em> is <code>"Name"</code> or <code>"IID"</code>, type information is retrieved via the <a href="https://msdn.microsoft.com/en-us/library/ms221571.aspx">IDispatch::GetTypeInfo</a> interface method. <em>ComObject</em>'s variant type must be VT_DISPATCH.</p>
+<p>If <em>Param2</em> is <code>"Class"</code> or <code>"CLSID"</code>, type information is retrieved via the <a href="https://msdn.microsoft.com/en-us/library/ms690192.aspx">IProvideClassInfo::GetClassInfo</a> interface method. <em>ComObject</em>'s variant type must be VT_DISPATCH or VT_UNKNOWN, and the object must implement the IProvideClassInfo interface (some objects do not).</p>
 
-
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="ComObjValue.htm">ComObjValue</a>, <a href="ComObjCreate.htm">ComObjCreate</a>, <a href="ComObjGet.htm">ComObjGet</a>, <a href="ComObjActive.htm">ComObjActive</a></p>
 
-<h3>Examples</h3>
-<pre class="NoIndent">
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>
 d := <a href="ComObjCreate.htm">ComObjCreate</a>("Scripting.Dictionary")
-VarType := ComObjType(d)          <em>; Always 9 for script-callable objects.</em>
-Name    := ComObjType(d, "Name")  <em>; Only valid for script-callable objects.</em>
-IID     := ComObjType(d, "IID")   <em>; As above.</em>
-MsgBox Variant type:`t%VarType%`nType name:`t%Name%`nInterface ID:`t%IID%
+VarType := ComObjType(d)
+IName   := ComObjType(d, "Name")
+IID     := ComObjType(d, "IID")
+CName   := ComObjType(d, "Class")  <em>; Requires <span class="ver">[v1.1.26+]</span></em>
+CLSID   := ComObjType(d, "CLSID")  <em>; Requires <span class="ver">[v1.1.26+]</span></em>
+MsgBox % "Variant type:`t" VarType
+	. "`nInterface name:`t" IName "`nInterface ID:`t" IID
+	. "`nClass name:`t" CName "`nClass ID (CLSID):`t" CLSID
 </pre>
+</div>
 
 </body>
 </html>

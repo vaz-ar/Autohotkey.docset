@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>Script Compatibility</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Script Compatibility | AutoHotkey</title>
+<meta name="description" content="Find out what has changed compared to AutoHotkey 1.0 and how much the impact is." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="static/theme.css" rel="stylesheet" type="text/css" />
 <script src="static/content.js" type="text/javascript"></script>
@@ -15,12 +16,14 @@
 <p>AutoHotkey 1.1 is also known as "AutoHotkey_L", while AutoHotkey 1.0 was retrospectively labelled "AutoHotkey Basic". Some older versions of AutoHotkey_L used 1.0.* version numbers, so for clarity, this document refers to the two branches of AutoHotkey by name rather than version number.</p>
 <p class="note"><strong>Note:</strong> Some of the most common problems are caused by changes required to support Unicode text, and can be avoided by simply using the ANSI version of AutoHotkey_L.</p>
 
+<h2 id="toc">Table of Contents</h2>
 <h3>Basic</h3>
 <p>High impact:</p>
 <ul>
   <li><a href="#Syntax_Errors">Certain syntax errors are no longer tolerated</a></li>
   <li><a href="#FileRead">FileRead may return corrupt binary data</a></li>
   <li><a href="#Names">Variable and function names do not allow [, ] or ?</a></li>
+  <li><a href="#DPIScale">DPI scaling is enabled by default for GUIs</a></li>
 </ul>
 <p>Medium impact:</p>
 <ul>
@@ -30,7 +33,6 @@
   <li><a href="#LastError">A_LastError is modified by more commands</a></li>
   <li><a href="#MsgBox">MsgBox's handles commas more consistently</a></li>
   <li><a href="#GuiOwner">Gui +Owner overrides additional styles</a></li>
-  <li><a href="#DPIScale">DPI scaling is enabled by default for GUIs</a></li>
   <li><a href="#VistaSound">SoundSet and SoundGet work better on Vista and later</a></li>
   <li><a href="#Tilde">~Tilde affects how custom modifier keys work</a></li>
   <li><a href="#ComboUpDown"><code>x &amp; y::</code> causes both <code>x::</code> and <code>x up::</code> to fire when x is released</a></li>
@@ -89,10 +91,13 @@
   <li>If these characters are used in other contexts, such as on the left hand side of an assignment, in the name of a command's input/output variable or between %percent% signs, an error message is displayed and the script is prevented from launching.</li>
 </ul>
 
+<h3 id="DPIScale">DPI Scaling</h3>
+<p><a href="commands/Gui.htm#DPIScale">DPI scaling</a> is enabled by default for script GUIs to ensure they scale according to the <a href="Variables.htm#ScreenDPI">system DPI setting</a>.  If enabled and the system DPI setting is not 96 (100%), positions and sizes accepted by or returned from Gui commands are not compatible with other commands.  To disable DPI scaling, use <code>Gui -DPIScale</code>.</p>
+
 <h3 id="Transform">Transform</h3>
 <p>Some <i>Transform</i> sub-commands are altered or unavailable in Unicode versions of AutoHotkey_L:</p>
 <ul>
-  <li><a href="commands/Transform.htm#Unicode">Transform, Unicode</a> is unavailable. To assign Unicode text to the clipboard, use a regular assignment. See also: <a href="commands/StrPutGet.htm">StrPut/StrGet</a>.</li>
+  <li><a href="commands/Transform.htm#Unicode">Transform, Unicode</a> is unavailable. To assign Unicode text to the clipboard, use a regular assignment. See also: <a href="commands/StrPut.htm">StrPut</a>/<a href="commands/StrGet.htm">StrGet</a>.</li>
   <li><a href="commands/Transform.htm#HTML">Transform, HTML</a> supports additional features.</li>
 </ul>
 
@@ -126,9 +131,6 @@ MsgBox,, Title
 <h3 id="GuiOwner">Gui +Owner</h3>
 <p>Applying the <a href="commands/Gui.htm#Owner">+Owner</a> option to a Gui also removes the WS_CHILD style and sets the WS_POPUP style. This may break scripts which used <code>+Owner</code> to set the parent window of a Gui <em>after</em> setting the styles.</p>
 
-<h3 id="DPIScale">DPI Scaling</h3>
-<p><a href="commands/Gui.htm#DPIScale">DPI scaling</a> is enabled by default for script GUIs.  This affects scripts when the system DPI setting is not 96 (100%).  To disable it, use <code>Gui -DPIScale</code>.</p>
-
 <h3 id="VistaSound">Sound Commands on Windows Vista and later</h3>
 <p><a href="commands/SoundSet.htm">SoundSet</a>, <a href="commands/SoundGet.htm">SoundGet</a>, <a href="commands/SoundSetWaveVolume.htm">SoundSetWaveVolume</a> and <a href="commands/SoundGetWaveVolume.htm">SoundGetWaveVolume</a> have improved support for Windows Vista and later.  Typical changes in behaviour include:</p>
 <ul>
@@ -137,7 +139,7 @@ MsgBox,, Title
 </ul>
 
 <h3 id="Tilde">~Tilde and Custom Combination Hotkeys</h3>
-<p>As of v1.1.14, the <a href="Hotkeys.htm#Tilde">tilde prefix</a> affects how a key works when used as a modifier key in a custom combination.</p>
+<p>As of <span class="ver">[v1.1.14]</span>, the <a href="Hotkeys.htm#Tilde">tilde prefix</a> affects how a key works when used as a modifier key in a custom combination.</p>
 
 <h3 id="ComboUpDown">Custom Combinations and Down/Up Hotkeys</h3>
 <p>Except when the tilde prefix is used, if both a key-down and a key-up hotkey are defined for a custom modifier key, they will both fire when the key is released.  For example, <code>x &amp; y::</code> causes both <code>x::</code> and <code>x up::</code> to fire when x is released, where previously <code>x::</code> never fired.</p>
@@ -147,7 +149,7 @@ MsgBox,, Title
 
 <h3 id="Window_Groups">Window Groups</h3>
 <p><a href="commands/GroupActivate.htm">GroupActivate</a> sets ErrorLevel to 1 if no window was found to activate or 0 otherwise.  Previously, ErrorLevel was left unchanged.</p>
-<p><a href="commands/GroupAdd.htm">GroupAdd</a>'s <em>Label</em> parameter applies to the window group as a whole instead of to one particular window specification within the group.  A discussion of this change can be found <a href="http://www.autohotkey.com/community/viewtopic.php?t=61362">on the forums</a>.  However, using this parameter is <strong>not recommended</strong>; check ErrorLevel after calling GroupActivate instead.</p>
+<p><a href="commands/GroupAdd.htm">GroupAdd</a>'s <em>Label</em> parameter applies to the window group as a whole instead of to one particular window specification within the group.  A discussion of this change can be found <a href="https://www.autohotkey.com/community/viewtopic.php?t=61362">on the forums</a>.  However, using this parameter is <strong>not recommended</strong>; check ErrorLevel after calling GroupActivate instead.</p>
 
 <h3 id="Run">Run / RunWait</h3>
 <p>AutoHotkey_L includes some enhancements to the way the <a href="commands/Run.htm">Run</a> and <a href="commands/Run.htm">RunWait</a> commands interpret the <em>Target</em> parameter.  This allows some things that didn't work previously, but in some very rare cases, may also affect scripts which were already working in AutoHotkey Basic.  The new behaviour is as follows:</p>
@@ -157,10 +159,10 @@ MsgBox,, Title
 </ul>
 
 <h3 id="ControlZ">Control-Z</h3>
-<p><a href="commands/LoopReadFile.htm">Loop Read</a> and <a href="commands/FileReadLine.htm">FileReadLine</a> no longer interpret the character Control-Z (0x1A) as an end-of-file marker.  Any Control-Z, even one appearing at the very end of the file, is loaded as-is.  <a href="commands/FileRead.htm">FileRead</a> already ignored this character, so is not affected by this issue.</p>
+<p><a href="commands/LoopReadFile.htm">Loop Read</a> and <a href="commands/FileReadLine.htm">FileReadLine</a> no longer interpret the character <kbd>Control</kbd>+<kbd>Z</kbd> (0x1A) as an end-of-file marker.  Any <kbd>Control</kbd>+<kbd>Z</kbd>, even one appearing at the very end of the file, is loaded as-is.  <a href="commands/FileRead.htm">FileRead</a> already ignored this character, so is not affected by this issue.</p>
 
 <h3 id="Compatibility_Mode">Compatibility Mode</h3>
-<p>If <a href="http://www.microsoft.com/windowsxp/using/helpandsupport/learnmore/appcompat.mspx#ECD">Compatibility mode</a> is set to Windows 95, 98/ME or NT4 in the properties of the EXE file used to run the script, the script may not behave correctly.  This is because compatibility mode causes a specific version of Windows to be reported to the application, but AutoHotkey_L omits support for these versions.  For example, setting compatibility mode to Windows 95 or 98/ME will cause <code>MsgBox %A_OSVersion%</code> to report <code>WIN_NT4</code>.</p>
+<p>If <a href="https://support.microsoft.com/en-us/help/15078/windows-make-older-programs-compatible">Compatibility mode</a> is set to Windows 95, 98/ME or NT4 in the properties of the EXE file used to run the script, the script may not behave correctly.  This is because compatibility mode causes a specific version of Windows to be reported to the application, but AutoHotkey_L omits support for these versions.  For example, setting compatibility mode to Windows 95 or 98/ME will cause <code>MsgBox %A_OSVersion%</code> to report <code>WIN_NT4</code>.</p>
 
 <h3 id="IsCompiled">A_IsCompiled</h3>
 <p><a href="Variables.htm#IsCompiled">A_IsCompiled</a> is defined as an empty string if the script has not been compiled.  Previously it was left undefined, which meant that assignments such as <code>A_IsCompiled := 1</code> were valid if the script hadn't been compiled.  Now it is treated as a read-only built-in variable in all cases.</p>
@@ -170,7 +172,8 @@ MsgBox,, Title
 
 
 <h2 id="Format">Unicode vs ANSI</h2>
-<p>A text value is often referred to as a <em>string</em>, as each text value is stored as a sequence or <em>string</em> of characters.  The numeric character code and size (in bytes) of each character depends on which version of AutoHotkey you are using: <i>Unicode</i> or <i>ANSI</i>.  These details are typically important for scripts which do any of the following:</p>
+<p class="note"><strong>Note:</strong> This section builds on topics covered in other parts of the documentation: <a href="Concepts.htm#strings">Strings</a>, <a href="Concepts.htm#string-encoding">String Encoding</a>.</p>
+<p>Within a string (text value), the numeric character code and size (in bytes) of each character depends on the <a href="Concepts.htm#native-encoding">native encoding</a> of the script or AutoHotkey executable; i.e. <i>Unicode</i> or <i>ANSI</i>.  These details are typically important for scripts which do any of the following:</p>
 <ul>
   <li>Pass strings to external functions via <a href="#DllCall">DllCall</a>.</li>
   <li>Pass strings via <a href="commands/PostMessage.htm">PostMessage/SendMessage</a>.</li>
@@ -205,18 +208,18 @@ VarSetCapacity(native_var,  t_size(capacity_in_chars))  <em>; see <a href="#NumP
   <tr><td class="Syntax" style="text-align:center">Str</td><td style="text-align:center">--</td><td>TCHAR*, LPTSTR, LPCTSTR</td><td>Equivalent to <b>WStr</b> in Unicode builds and <b>AStr</b> in ANSI builds.</td></tr>
 </table>
 <p>If "Str" or the equivalent type for the current build is used as a parameter, the address of the string or var is passed to the function, otherwise a temporary copy of the string is created in the desired format and passed instead. As a general rule, "AStr" and "WStr" should not be used if the function writes a value into that parameter.</p>
-<p><b>Note:</b> "AStr" and "WStr" are equally valid for parameters and the function's return value.</p>
+<p class="note"><b>Note:</b> "AStr" and "WStr" are equally valid for parameters and the function's return value.</p>
 <p>In general, if a script calls a function via DllCall which accepts a string as a parameter, one of the following approaches must be taken:</p>
 <ol>
   <li>If both Unicode (W) and ANSI (A) versions of the function are available, call the appropriate one for the current build.  In the following example, "DeleteFile" is internally known as "DeleteFileA" or "DeleteFileW".  Since "DeleteFile" itself doesn't really exist, DllCall automatically tries "A" or "W" as appropriate for the current build:
   <pre>DllCall("DeleteFile", "Ptr", &amp;filename)
 DllCall("DeleteFile", "Str", filename)</pre>
   <p>In this example, <code>&amp;filename</code> passes the address of the string exactly as-is, so the function must expect a string in the same format as the "Str" type. Note that "UInt" must be used in place of "Ptr" in AutoHotkey Basic, but the resulting code may not be 64-bit compatible.</p>
-  <p><b>Note:</b> If the function cannot be found exactly as specified, AutoHotkey_L appends the "A" or "W" suffix regardless of which DLL is specified.  However, AutoHotkey Basic appends the "A" suffix only for functions in User32.dll, Kernel32.dll, ComCtl32.dll, or Gdi32.dll.</p></li>
+  <p class="note"><b>Note:</b> If the function cannot be found exactly as specified, AutoHotkey_L appends the "A" or "W" suffix regardless of which DLL is specified.  However, AutoHotkey Basic appends the "A" suffix only for functions in User32.dll, Kernel32.dll, ComCtl32.dll, or Gdi32.dll.</p></li>
   <li>If the function only accepts a specific type of string as input, the script may use the appropriate string type:
   <pre>DllCall("DeleteFileA", "AStr", filename)
 DllCall("DeleteFileW", "WStr", filename)</pre></li>
-  <li>If the function must modify a string (in a non-native format), the script must allocate a buffer as described <a href="#VarSetCapacity">above</a> and pass its address to the function.  If the parameter accepts input, the script must also convert the input string to the appropriate format; this can be done using <a href="commands/StrPutGet.htm">StrPut</a>.</li>
+  <li>If the function must modify a string (in a non-native format), the script must allocate a buffer as described <a href="#VarSetCapacity">above</a> and pass its address to the function.  If the parameter accepts input, the script must also convert the input string to the appropriate format; this can be done using <a href="commands/StrPut.htm">StrPut</a>.</li>
 </ol>
 
 <h3 id="NumPutGet">NumPut / NumGet</h3>

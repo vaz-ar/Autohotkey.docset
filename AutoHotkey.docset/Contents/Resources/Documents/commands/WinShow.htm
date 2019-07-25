@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>WinShow</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>WinShow - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The WinShow command unhides the specified window." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -13,8 +14,8 @@
 
 <p>Unhides the specified window.</p>
 
-<pre class="Syntax">WinShow [, WinTitle, WinText, ExcludeTitle, ExcludeText]</pre>
-<h3>Parameters</h3>
+<pre class="Syntax"><span class="func">WinShow</span> <span class="optional">, WinTitle, WinText, ExcludeTitle, ExcludeText</span></pre>
+<h2>Parameters</h2>
 <dl>
 
   <dt>WinTitle</dt>
@@ -31,18 +32,21 @@
 
 </dl>
 
-<h3>Remarks</h3>
+<h2>Remarks</h2>
 <p>By default, WinShow is the only command that can always detect hidden windows. Other commands can detect them only if <a href="DetectHiddenWindows.htm">DetectHiddenWindows</a> has been turned on.</p>
 <p>This command operates only upon the topmost matching window except when <em>WinTitle</em> is <a href="GroupAdd.htm">ahk_group GroupName</a>, in which case all windows in the group are affected.</p>
-<h3>Related</h3>
+<h2>Related</h2>
 <p><a href="WinHide.htm">WinHide</a>, <a href="SetTitleMatchMode.htm">SetTitleMatchMode</a>, <a href="DetectHiddenWindows.htm">DetectHiddenWindows</a>, <a href="../misc/WinTitle.htm#LastFoundWindow">Last Found Window</a></p>
-<h3>Example</h3>
-<pre class="NoIndent">Run, notepad.exe
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>Run, notepad.exe
 WinWait, Untitled - Notepad
 Sleep, 500
 WinHide  <em>; Because its parameter is omitted, it uses the window found above</em>.
 Sleep, 1000
 WinShow</pre>
+</div>
 
 </body>
 </html>

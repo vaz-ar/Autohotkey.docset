@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-<title>Else</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Else - Syntax &amp; Usage | AutoHotkey</title>
+<meta name="description" content="The Else statement specifies one or more statements to execute if an If statement evaluates to false." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href="../static/theme.css" rel="stylesheet" type="text/css" />
 <script src="../static/content.js" type="text/javascript"></script>
@@ -10,60 +11,68 @@
 <body>
 
 <h1>Else</h1>
+<p>Specifies one or more <a href="../Concepts.htm#statement">statements</a> to execute if an <a href="../Language.htm#if-statement">If statement</a> evaluates to false.</p>
+<pre class="Syntax"><span class="func">Else</span> <i>Statement</i></pre>
+<pre class="Syntax"><span class="func">Else</span>
+{
+    <i>Statements</i>
+}</pre>
 
-<p>Specifies the command(s) to perform if an IF-statement evaluates to FALSE. When more than one command is present, enclose them in a <a href="Block.htm">block</a> (braces).</p>
-
-<pre class="Syntax">Else</pre>
-<h3>Remarks</h3>
-<p>Every use of ELSE must belong to (be associated with) an IF-statement above it. An ELSE always belongs to the nearest unclaimed IF-statement above it unless a <a href="Block.htm">block</a> is used to change that behavior.</p>
-<p>An ELSE can be followed immediately by any other single command on the same line. This is most often used for &quot;else if&quot; ladders (see examples at the bottom).</p>
-<p>When an <a href="IfEqual.htm">IF</a> or an ELSE owns more than one line, those lines must be enclosed in braces. However, if only one line belongs to an IF or ELSE, the braces are optional. For example:</p>
-<pre>if count &gt; 0  <em>; No braces are required around the next line because it's only a single line.</em>
+<h2>Remarks</h2>
+<p>Every use of an <em>Else</em> must belong to (be associated with) an <a href="../Language.htm#if-statement">If statement</a> above it. An <em>Else</em> always belongs to the nearest unclaimed If statement above it unless a <a href="Block.htm">block</a> is used to change that behavior.</p>
+<p>An <em>Else</em> can be followed immediately by any other single <a href="../Concepts.htm#statement">statement</a> on the same line. This is most often used for &quot;else if&quot; ladders (see examples at the bottom).</p>
+<p>If more than one statement is specified to be executed, those statements must be enclosed in braces (to create a <a href="Block.htm">block</a>). Otherwise, the braces are optional. For example:</p>
+<pre>if (count &gt; 0)  <em>; No braces are required around the next line because it's only a single line.</em>
     MsgBox Press OK to begin the process.
 else  <em>; Braces must be used around the section below because it consists of more than one line.</em>
 {
     WinClose Untitled - Notepad
     MsgBox There are no items present.
 }</pre>
-<p>The <a href="Block.htm#otb">One True Brace (OTB) style</a> may optionally be used around an &quot;else&quot;. For example:</p>
+<p>The <a href="Block.htm#otb">One True Brace (OTB) style</a> may optionally be used around an <em>Else</em>. For example:</p>
 <pre>if IsDone {
-    ...
-<strong>}</strong> else if (x &lt; y) <strong>{</strong>
-    ...
-<strong>}</strong> else <strong>{</strong>
-    ...
+    <em>; ...</em>
+} else if (x &lt; y) {
+    <em>; ...</em>
+} else {
+    <em>; ...</em>
 }</pre>
-<h3>Related</h3>
-<p>See <a href="Block.htm">Blocks</a>. Also, every IF-command can use ELSE, including <a href="WinActive.htm">IfWinActive</a>, <a href="WinExist.htm">IfWinExist</a>, <a href="IfMsgBox.htm">IfMsgBox</a>, <a href="IfInString.htm">IfInString</a>, <a href="IfBetween.htm">IfBetween</a>, <a href="IfIn.htm">IfIn</a>, <a href="IfEqual.htm">IF</a>, and <a href="IfExpression.htm">IF (expression)</a>.</p>
-<h3>Examples</h3>
-<pre class="NoIndent">IfWinExist, Untitled - Notepad
+
+<h2>Related</h2>
+<p><a href="Block.htm">Blocks</a>, <a href="../Language.htm#if-statement">If Statements</a>, <a href="../Language.htm#control-flow">Control Flow Statements</a></p>
+
+<h2>Examples</h2>
+<div class="ex" id="ExBasic">
+<p><a href="#ExBasic">#1</a></p>
+<pre>if WinExist("Untitled - Notepad")
 {
     WinActivate
     Send This is a test.{Enter}
 }
-<strong>else</strong>
+else
 {
     WinActivate, Some Other Window
-    MouseClick, left, 100, 200
+    MouseClick, Left, 100, 200
 }
 
-if x = 1
+if (x = 1)
     Gosub, a1
-<strong>else</strong> if x = 2 <em>; &quot;else if&quot; style</em>
+else if (x = 2) <em>; &quot;else if&quot; style</em>
     Gosub, a2
-<strong>else</strong> IfEqual, x, 3 <em>; alternate style</em>
+else IfEqual, x, 3 <em>; alternate style</em>
 {
     Gosub, a3
     Sleep, 1
 }
-<strong>else</strong> Gosub, a4  <em>; i.e. Any single command can be on the same line with an ELSE.</em>
+else Gosub, a4  <em>; i.e. Any single statement can be on the same line with an Else.</em>
  
 <em>; Also OK:</em>
 IfEqual, y, 1, Gosub, b1
-<strong>else</strong> {
+else {
     Sleep, 1
     Gosub, b2
 }</pre>
+</div>
 
 </body>
 </html>
